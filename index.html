@@ -1,16 +1,22 @@
-haii.....
-<!DOCTYPE html>
+
+html_content = '''<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ehan Studio | Creative Digital Agency</title>
+    <title>Ehan Studio — Creative Design Agency</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary: #FF3366;
+            --secondary: #6C5CE7;
+            --dark: #0a0a0a;
+            --light: #fafafa;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -18,146 +24,57 @@ haii.....
         }
         
         body {
-            font-family: 'Space Grotesk', sans-serif;
-            background: #0a0a0a;
-            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            background: var(--dark);
+            color: var(--light);
             overflow-x: hidden;
+            cursor: none;
         }
         
         .font-display {
-            font-family: 'Syne', sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
         }
         
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s, background 0.3s;
+            mix-blend-mode: difference;
         }
         
-        /* Noise Texture Overlay */
-        .noise-overlay {
+        .cursor-follower {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 51, 102, 0.1);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.3s ease-out;
+        }
+        
+        .cursor.hover {
+            transform: scale(2);
+            background: var(--primary);
+        }
+        
+        /* Grain Overlay */
+        .grain {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 9999;
+            z-index: 9990;
             opacity: 0.03;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
-        
-        /* Magnetic Button Effect */
-        .magnetic-btn {
-            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        
-        /* Text Reveal Animation */
-        .reveal-text {
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-        }
-        
-        .reveal-text span {
-            display: inline-block;
-            transform: translateY(100%);
-            opacity: 0;
-            animation: revealUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        
-        @keyframes revealUp {
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        
-        /* Gradient Text */
-        .gradient-text {
-            background: linear-gradient(135deg, #fff 0%, #888 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .gradient-text-accent {
-            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        /* Marquee Animation */
-        .marquee-container {
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        
-        .marquee-content {
-            display: inline-block;
-            animation: marquee 20s linear infinite;
-        }
-        
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        
-        /* Card Hover Effects */
-        .project-card {
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        
-        .project-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .project-card:hover .project-image {
-            transform: scale(1.05);
-        }
-        
-        .project-image {
-            transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        
-        /* Cursor Follower */
-        .cursor-dot,
-        .cursor-outline {
-            position: fixed;
-            top: 0;
-            left: 0;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 9999;
-            pointer-events: none;
-        }
-        
-        .cursor-dot {
-            width: 5px;
-            height: 5px;
-            background-color: white;
-        }
-        
-        .cursor-outline {
-            width: 30px;
-            height: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            transition: width 0.2s, height 0.2s, background-color 0.2s;
-        }
-        
-        .cursor-outline.hover {
-            width: 60px;
-            height: 60px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-color: transparent;
         }
         
         /* Navigation */
@@ -173,7 +90,7 @@ haii.....
             left: 0;
             width: 100%;
             height: 1px;
-            background: white;
+            background: var(--primary);
             transform: translateX(-100%);
             transition: transform 0.3s ease;
         }
@@ -182,576 +99,770 @@ haii.....
             transform: translateX(0);
         }
         
-        /* Service Card Stack */
-        .service-card {
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        
-        /* Floating Animation */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        
-        .float-animation {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        /* Grid Background */
-        .grid-bg {
-            background-size: 50px 50px;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-        }
-        
-        /* Smooth Scroll */
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        /* Loading Screen */
-        .loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #0a0a0a;
-            z-index: 10000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
-        }
-        
-        .loader.hidden {
+        /* Hero Text Animation */
+        .char {
+            display: inline-block;
+            transform: translateY(100%);
             opacity: 0;
-            visibility: hidden;
         }
         
-        .loader-text {
-            font-size: 2rem;
+        /* Marquee */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        .marquee-content {
+            display: inline-flex;
+            animation: marquee 20s linear infinite;
+        }
+        
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
+        /* Project Cards */
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .project-card:hover {
+            transform: scale(0.98);
+        }
+        
+        .project-card img {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .project-card:hover img {
+            transform: scale(1.1);
+        }
+        
+        .project-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 2rem;
+        }
+        
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+        
+        /* Magnetic Button */
+        .magnetic-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem 3rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 100px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .magnetic-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--primary);
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .magnetic-btn:hover::before {
+            transform: translateY(0);
+        }
+        
+        .magnetic-btn span {
+            position: relative;
+            z-index: 1;
+            transition: color 0.4s;
+        }
+        
+        .magnetic-btn:hover span {
+            color: white;
+        }
+        
+        /* Services Accordion */
+        .service-item {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+        }
+        
+        .service-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .service-item.active .service-content {
+            max-height: 300px;
+        }
+        
+        .service-item.active .service-icon {
+            transform: rotate(45deg);
+        }
+        
+        /* Floating Shapes */
+        .float-shape {
+            position: absolute;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+        
+        /* Text Reveal */
+        .reveal-text {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+        }
+        
+        .reveal-text span {
+            display: inline-block;
+            transform: translateY(100%);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .reveal-text.revealed span {
+            transform: translateY(0);
+        }
+        
+        /* Stats Counter */
+        .stat-number {
+            font-size: clamp(4rem, 10vw, 8rem);
+            line-height: 1;
             font-weight: 700;
-            letter-spacing: 0.2em;
-            animation: pulse 1.5s ease-in-out infinite;
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.3) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+        /* Footer Reveal */
+        .footer-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+        
+        footer {
+            position: sticky;
+            bottom: 0;
+            z-index: -1;
+        }
+        
+        /* Scroll Velocity Skew */
+        .velocity-skew {
+            transition: transform 0.1s linear;
         }
     </style>
 </head>
-<body class="antialiased">
-    <!-- Loading Screen -->
-    <div class="loader" id="loader">
-        <div class="loader-text font-display">EHAN STUDIO</div>
-    </div>
-    
-    <!-- Noise Overlay -->
-    <div class="noise-overlay"></div>
-    
+<body>
     <!-- Custom Cursor -->
-    <div class="cursor-dot hidden md:block"></div>
-    <div class="cursor-outline hidden md:block"></div>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
     
+    <!-- Grain Overlay -->
+    <div class="grain"></div>
+    
+    <!-- Floating Shapes -->
+    <div class="float-shape w-96 h-96 bg-purple-600 rounded-full top-20 -left-48" style="animation-delay: 0s;"></div>
+    <div class="float-shape w-64 h-64 bg-pink-600 rounded-full bottom-40 right-0" style="animation-delay: -5s;"></div>
+    <div class="float-shape w-80 h-80 bg-blue-600 rounded-full top-1/2 left-1/3" style="animation-delay: -10s;"></div>
+
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 w-full z-50 px-6 py-6 mix-blend-difference">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <a href="#" class="font-display text-2xl font-bold tracking-tighter hover:opacity-70 transition-opacity">
-                EHAN<span class="text-gray-500">.</span>
+        <div class="flex justify-between items-center max-w-7xl mx-auto">
+            <a href="#" class="font-display text-2xl font-bold tracking-tighter hover-target">
+                EHAN<span class="text-[#FF3366]">.</span>
             </a>
-            
             <div class="hidden md:flex items-center gap-8">
-                <a href="#work" class="nav-link text-sm uppercase tracking-widest hover:text-gray-400 transition-colors">Work</a>
-                <a href="#services" class="nav-link text-sm uppercase tracking-widest hover:text-gray-400 transition-colors">Services</a>
-                <a href="#about" class="nav-link text-sm uppercase tracking-widest hover:text-gray-400 transition-colors">About</a>
-                <a href="#contact" class="nav-link text-sm uppercase tracking-widest hover:text-gray-400 transition-colors">Contact</a>
+                <a href="#work" class="nav-link text-sm uppercase tracking-widest hover-target">Work</a>
+                <a href="#services" class="nav-link text-sm uppercase tracking-widest hover-target">Services</a>
+                <a href="#about" class="nav-link text-sm uppercase tracking-widest hover-target">About</a>
+                <a href="#contact" class="nav-link text-sm uppercase tracking-widest hover-target">Contact</a>
             </div>
-            
-            <button class="md:hidden magnetic-btn p-2" id="menuBtn">
-                <i data-lucide="menu" class="w-6 h-6"></i>
+            <button class="md:hidden text-white hover-target">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                </svg>
             </button>
         </div>
     </nav>
-    
-    <!-- Mobile Menu -->
-    <div class="fixed inset-0 bg-black z-40 transform translate-x-full transition-transform duration-500 ease-out" id="mobileMenu">
-        <div class="flex flex-col items-center justify-center h-full gap-8">
-            <a href="#work" class="font-display text-4xl font-bold hover:text-gray-400 transition-colors mobile-link">Work</a>
-            <a href="#services" class="font-display text-4xl font-bold hover:text-gray-400 transition-colors mobile-link">Services</a>
-            <a href="#about" class="font-display text-4xl font-bold hover:text-gray-400 transition-colors mobile-link">About</a>
-            <a href="#contact" class="font-display text-4xl font-bold hover:text-gray-400 transition-colors mobile-link">Contact</a>
-            <button class="absolute top-6 right-6 p-2" id="closeMenu">
-                <i data-lucide="x" class="w-8 h-8"></i>
-            </button>
-        </div>
-    </div>
 
     <!-- Hero Section -->
-    <section class="relative min-h-screen flex items-center justify-center overflow-hidden grid-bg">
-        <!-- Background Elements -->
-        <div class="absolute inset-0 overflow-hidden">
-            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-[120px] float-animation"></div>
-            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-500/20 rounded-full blur-[120px] float-animation" style="animation-delay: -3s;"></div>
-        </div>
-        
-        <div class="relative z-10 text-center px-6 max-w-6xl mx-auto">
+    <section class="min-h-screen flex items-center justify-center relative overflow-hidden px-6">
+        <div class="max-w-7xl mx-auto text-center relative z-10">
             <div class="mb-6 overflow-hidden">
-                <p class="text-sm md:text-base uppercase tracking-[0.3em] text-gray-400 reveal-text">
-                    <span style="animation-delay: 0.1s">Creative</span>
-                    <span style="animation-delay: 0.2s">Digital</span>
-                    <span style="animation-delay: 0.3s">Studio</span>
+                <p class="text-sm md:text-base uppercase tracking-[0.3em] text-gray-400 hero-subtitle opacity-0">
+                    Creative Design Studio
                 </p>
             </div>
-            
-            <h1 class="font-display text-6xl md:text-8xl lg:text-9xl font-bold leading-none mb-8">
+            <h1 class="font-display text-5xl md:text-7xl lg:text-9xl font-bold leading-none mb-8 hero-title">
                 <div class="overflow-hidden">
-                    <span class="block reveal-text">
-                        <span style="animation-delay: 0.4s">WE CREATE</span>
-                    </span>
+                    <span class="inline-block">WE CREATE</span>
                 </div>
                 <div class="overflow-hidden">
-                    <span class="block reveal-text gradient-text-accent">
-                        <span style="animation-delay: 0.6s">DIGITAL</span>
-                    </span>
+                    <span class="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#FF3366] to-[#6C5CE7]">DIGITAL</span>
                 </div>
                 <div class="overflow-hidden">
-                    <span class="block reveal-text">
-                        <span style="animation-delay: 0.8s">EXPERIENCES</span>
-                    </span>
+                    <span class="inline-block">EXPERIENCES</span>
                 </div>
             </h1>
-            
-            <div class="overflow-hidden mt-12">
-                <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto reveal-text">
-                    <span style="animation-delay: 1s">
-                        Transforming brands through bold design, innovative technology, and strategic thinking.
-                    </span>
-                </p>
-            </div>
-            
-            <div class="mt-12 overflow-hidden reveal-text">
-                <span style="animation-delay: 1.2s; display: inline-block;">
-                    <a href="#work" class="magnetic-btn inline-flex items-center gap-3 px-8 py-4 border border-white/20 rounded-full hover:bg-white hover:text-black transition-all duration-300 group">
-                        <span class="text-sm uppercase tracking-widest">View Our Work</span>
-                        <i data-lucide="arrow-down-right" class="w-4 h-4 group-hover:rotate-45 transition-transform"></i>
-                    </a>
-                </span>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-4 mt-12 hero-cta opacity-0">
+                <a href="#work" class="magnetic-btn hover-target">
+                    <span class="font-display font-medium">View Our Work</span>
+                </a>
+                <a href="#contact" class="text-sm uppercase tracking-widest border-b border-white/30 pb-1 hover:border-[#FF3366] transition-colors hover-target">
+                    Get in Touch
+                </a>
             </div>
         </div>
         
         <!-- Scroll Indicator -->
-        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <i data-lucide="chevron-down" class="w-6 h-6 text-gray-500"></i>
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
+            <span class="text-xs uppercase tracking-widest">Scroll</span>
+            <div class="w-px h-12 bg-gradient-to-b from-white to-transparent"></div>
         </div>
     </section>
 
     <!-- Marquee Section -->
-    <div class="py-8 border-y border-white/10 bg-black overflow-hidden">
+    <section class="py-20 border-y border-white/10 overflow-hidden">
         <div class="marquee-container">
-            <div class="marquee-content font-display text-4xl md:text-6xl font-bold text-transparent stroke-text">
-                <span class="mx-8 text-white/10">BRANDING</span>
-                <span class="mx-8 text-white">WEB DESIGN</span>
-                <span class="mx-8 text-white/10">DEVELOPMENT</span>
-                <span class="mx-8 text-white">MOTION</span>
-                <span class="mx-8 text-white/10">STRATEGY</span>
-                <span class="mx-8 text-white">UI/UX</span>
-                <span class="mx-8 text-white/10">BRANDING</span>
-                <span class="mx-8 text-white">WEB DESIGN</span>
-                <span class="mx-8 text-white/10">DEVELOPMENT</span>
-                <span class="mx-8 text-white">MOTION</span>
-                <span class="mx-8 text-white/10">STRATEGY</span>
-                <span class="mx-8 text-white">UI/UX</span>
+            <div class="marquee-content font-display text-6xl md:text-8xl font-bold text-white/10">
+                <span class="mx-8">BRANDING</span>
+                <span class="mx-8 text-[#FF3366]">•</span>
+                <span class="mx-8">WEB DESIGN</span>
+                <span class="mx-8 text-[#6C5CE7]">•</span>
+                <span class="mx-8">DEVELOPMENT</span>
+                <span class="mx-8 text-[#FF3366]">•</span>
+                <span class="mx-8">MOTION</span>
+                <span class="mx-8 text-[#6C5CE7]">•</span>
+                <span class="mx-8">BRANDING</span>
+                <span class="mx-8 text-[#FF3366]">•</span>
+                <span class="mx-8">WEB DESIGN</span>
+                <span class="mx-8 text-[#6C5CE7]">•</span>
+                <span class="mx-8">DEVELOPMENT</span>
+                <span class="mx-8 text-[#FF3366]">•</span>
+                <span class="mx-8">MOTION</span>
+                <span class="mx-8 text-[#6C5CE7]">•</span>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Selected Work Section -->
-    <section id="work" class="py-32 px-6 relative">
+    <!-- Featured Work -->
+    <section id="work" class="py-32 px-6">
         <div class="max-w-7xl mx-auto">
             <div class="flex flex-col md:flex-row justify-between items-end mb-20">
                 <div>
-                    <p class="text-sm uppercase tracking-widest text-gray-500 mb-4">Portfolio</p>
-                    <h2 class="font-display text-5xl md:text-7xl font-bold">Selected<br>Work</h2>
+                    <p class="text-[#FF3366] text-sm uppercase tracking-widest mb-4">Selected Projects</p>
+                    <h2 class="font-display text-4xl md:text-6xl font-bold">Featured Work</h2>
                 </div>
-                <div class="mt-6 md:mt-0">
-                    <a href="#" class="inline-flex items-center gap-2 text-sm uppercase tracking-widest hover:text-gray-400 transition-colors group">
-                        View All Projects
-                        <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-2 transition-transform"></i>
-                    </a>
-                </div>
+                <a href="#" class="mt-6 md:mt-0 text-sm uppercase tracking-widest border-b border-white/30 pb-1 hover:border-[#FF3366] transition-colors hover-target">
+                    View All Projects
+                </a>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Project 1 -->
-                <div class="project-card group cursor-pointer">
-                    <div class="relative overflow-hidden rounded-lg aspect-[4/3] mb-6">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80" alt="Project 1" class="project-image w-full h-full object-cover">
-                        <div class="absolute bottom-6 left-6 z-20 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                            <span class="px-4 py-2 bg-white text-black text-xs uppercase tracking-widest rounded-full">View Case</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-between items-start">
+                <div class="project-card group rounded-2xl aspect-[4/5] cursor-pointer hover-target" data-speed="1.2">
+                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80" alt="Project 1" class="w-full h-full object-cover">
+                    <div class="project-overlay">
                         <div>
-                            <h3 class="font-display text-2xl font-bold mb-2">Aurora Finance</h3>
-                            <p class="text-gray-400 text-sm">Brand Identity & Web Platform</p>
+                            <p class="text-[#FF3366] text-sm uppercase tracking-widest mb-2">Brand Identity</p>
+                            <h3 class="font-display text-3xl font-bold">Nexus Finance</h3>
                         </div>
-                        <span class="text-gray-600 text-sm">2024</span>
                     </div>
                 </div>
                 
                 <!-- Project 2 -->
-                <div class="project-card group cursor-pointer md:mt-24">
-                    <div class="relative overflow-hidden rounded-lg aspect-[4/3] mb-6">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        <img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&q=80" alt="Project 2" class="project-image w-full h-full object-cover">
-                        <div class="absolute bottom-6 left-6 z-20 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                            <span class="px-4 py-2 bg-white text-black text-xs uppercase tracking-widest rounded-full">View Case</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-between items-start">
+                <div class="project-card group rounded-2xl aspect-[4/5] md:mt-24 cursor-pointer hover-target" data-speed="0.8">
+                    <img src="https://images.unsplash.com/photo-1634017839464-5c339ez8ebe0?w=800&q=80" alt="Project 2" class="w-full h-full object-cover">
+                    <div class="project-overlay">
                         <div>
-                            <h3 class="font-display text-2xl font-bold mb-2">Nexus Tech</h3>
-                            <p class="text-gray-400 text-sm">Digital Experience & Motion</p>
+                            <p class="text-[#6C5CE7] text-sm uppercase tracking-widest mb-2">Web Design</p>
+                            <h3 class="font-display text-3xl font-bold">Aura Wellness</h3>
                         </div>
-                        <span class="text-gray-600 text-sm">2024</span>
                     </div>
                 </div>
                 
                 <!-- Project 3 -->
-                <div class="project-card group cursor-pointer">
-                    <div class="relative overflow-hidden rounded-lg aspect-[4/3] mb-6">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80" alt="Project 3" class="project-image w-full h-full object-cover">
-                        <div class="absolute bottom-6 left-6 z-20 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                            <span class="px-4 py-2 bg-white text-black text-xs uppercase tracking-widest rounded-full">View Case</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-between items-start">
+                <div class="project-card group rounded-2xl aspect-[4/5] cursor-pointer hover-target" data-speed="1.0">
+                    <img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=800&q=80" alt="Project 3" class="w-full h-full object-cover">
+                    <div class="project-overlay">
                         <div>
-                            <h3 class="font-display text-2xl font-bold mb-2">Velvet Studio</h3>
-                            <p class="text-gray-400 text-sm">E-commerce & Brand Strategy</p>
+                            <p class="text-[#FF3366] text-sm uppercase tracking-widest mb-2">E-Commerce</p>
+                            <h3 class="font-display text-3xl font-bold">Luxe Fashion</h3>
                         </div>
-                        <span class="text-gray-600 text-sm">2023</span>
                     </div>
                 </div>
                 
                 <!-- Project 4 -->
-                <div class="project-card group cursor-pointer md:mt-24">
-                    <div class="relative overflow-hidden rounded-lg aspect-[4/3] mb-6">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80" alt="Project 4" class="project-image w-full h-full object-cover">
-                        <div class="absolute bottom-6 left-6 z-20 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
-                            <span class="px-4 py-2 bg-white text-black text-xs uppercase tracking-widest rounded-full">View Case</span>
-                        </div>
-                    </div>
-                    <div class="flex justify-between items-start">
+                <div class="project-card group rounded-2xl aspect-[4/5] md:mt-24 cursor-pointer hover-target" data-speed="1.4">
+                    <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80" alt="Project 4" class="w-full h-full object-cover">
+                    <div class="project-overlay">
                         <div>
-                            <h3 class="font-display text-2xl font-bold mb-2">Quantum Labs</h3>
-                            <p class="text-gray-400 text-sm">Interactive Installation</p>
+                            <p class="text-[#6C5CE7] text-sm uppercase tracking-widest mb-2">App Design</p>
+                            <h3 class="font-display text-3xl font-bold">Pulse Fitness</h3>
                         </div>
-                        <span class="text-gray-600 text-sm">2023</span>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-32 px-6 border-y border-white/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-12">
+                <div class="stat-item text-center">
+                    <div class="stat-number font-display" data-target="150">0</div>
+                    <p class="text-gray-400 text-sm uppercase tracking-widest mt-4">Projects Completed</p>
+                </div>
+                <div class="stat-item text-center">
+                    <div class="stat-number font-display" data-target="8">0</div>
+                    <p class="text-gray-400 text-sm uppercase tracking-widest mt-4">Years Experience</p>
+                </div>
+                <div class="stat-item text-center">
+                    <div class="stat-number font-display" data-target="45">0</div>
+                    <p class="text-gray-400 text-sm uppercase tracking-widest mt-4">Happy Clients</p>
+                </div>
+                <div class="stat-item text-center">
+                    <div class="stat-number font-display" data-target="12">0</div>
+                    <p class="text-gray-400 text-sm uppercase tracking-widest mt-4">Awards Won</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Services Section -->
-    <section id="services" class="py-32 px-6 bg-neutral-900/30 relative overflow-hidden">
-        <div class="absolute inset-0 grid-bg opacity-50"></div>
-        
-        <div class="max-w-7xl mx-auto relative z-10">
+    <section id="services" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto">
             <div class="mb-20">
-                <p class="text-sm uppercase tracking-widest text-gray-500 mb-4">What We Do</p>
-                <h2 class="font-display text-5xl md:text-7xl font-bold max-w-4xl">We build digital products that matter</h2>
+                <p class="text-[#FF3366] text-sm uppercase tracking-widest mb-4">What We Do</p>
+                <h2 class="font-display text-4xl md:text-6xl font-bold max-w-3xl">Services that drive growth and innovation</h2>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <!-- Service 1 -->
-                <div class="service-card group p-8 border border-white/10 rounded-2xl hover:bg-white hover:text-black transition-all duration-500 cursor-pointer">
-                    <div class="mb-6 text-gray-500 group-hover:text-black transition-colors">
-                        <i data-lucide="palette" class="w-10 h-10"></i>
+            <div class="space-y-0">
+                <div class="service-item py-8 hover-target" data-service="1">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-8">
+                            <span class="text-gray-500 font-display text-sm">01</span>
+                            <h3 class="font-display text-3xl md:text-5xl font-bold">Brand Strategy</h3>
+                        </div>
+                        <div class="service-icon w-12 h-12 rounded-full border border-white/20 flex items-center justify-center transition-transform duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                        </div>
                     </div>
-                    <h3 class="font-display text-2xl font-bold mb-4">Brand Identity</h3>
-                    <p class="text-gray-400 group-hover:text-gray-600 text-sm leading-relaxed">
-                        Strategic brand development including visual identity, guidelines, and comprehensive brand systems.
-                    </p>
-                    <div class="mt-6 flex items-center gap-2 text-sm uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                        <span>Learn More</span>
-                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </div>
-                </div>
-                
-                <!-- Service 2 -->
-                <div class="service-card group p-8 border border-white/10 rounded-2xl hover:bg-white hover:text-black transition-all duration-500 cursor-pointer">
-                    <div class="mb-6 text-gray-500 group-hover:text-black transition-colors">
-                        <i data-lucide="monitor" class="w-10 h-10"></i>
-                    </div>
-                    <h3 class="font-display text-2xl font-bold mb-4">Web Design</h3>
-                    <p class="text-gray-400 group-hover:text-gray-600 text-sm leading-relaxed">
-                        Immersive digital experiences crafted with cutting-edge design principles and user-centric approaches.
-                    </p>
-                    <div class="mt-6 flex items-center gap-2 text-sm uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                        <span>Learn More</span>
-                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    <div class="service-content">
+                        <div class="pt-6 pb-2 pl-16 md:pl-20 max-w-2xl">
+                            <p class="text-gray-400 text-lg leading-relaxed">
+                                We craft compelling brand narratives that resonate with your audience. From positioning to visual identity, we build brands that stand out and drive meaningful connections.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 
-                <!-- Service 3 -->
-                <div class="service-card group p-8 border border-white/10 rounded-2xl hover:bg-white hover:text-black transition-all duration-500 cursor-pointer">
-                    <div class="mb-6 text-gray-500 group-hover:text-black transition-colors">
-                        <i data-lucide="code-2" class="w-10 h-10"></i>
+                <div class="service-item py-8 hover-target" data-service="2">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-8">
+                            <span class="text-gray-500 font-display text-sm">02</span>
+                            <h3 class="font-display text-3xl md:text-5xl font-bold">Web Design</h3>
+                        </div>
+                        <div class="service-icon w-12 h-12 rounded-full border border-white/20 flex items-center justify-center transition-transform duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                        </div>
                     </div>
-                    <h3 class="font-display text-2xl font-bold mb-4">Development</h3>
-                    <p class="text-gray-400 group-hover:text-gray-600 text-sm leading-relaxed">
-                        Robust frontend and backend solutions built with modern technologies and scalable architecture.
-                    </p>
-                    <div class="mt-6 flex items-center gap-2 text-sm uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                        <span>Learn More</span>
-                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    <div class="service-content">
+                        <div class="pt-6 pb-2 pl-16 md:pl-20 max-w-2xl">
+                            <p class="text-gray-400 text-lg leading-relaxed">
+                                Beautiful, functional websites that convert. We combine aesthetics with user experience to create digital platforms that engage visitors and achieve business goals.
+                            </p>
+                        </div>
                     </div>
                 </div>
                 
-                <!-- Service 4 -->
-                <div class="service-card group p-8 border border-white/10 rounded-2xl hover:bg-white hover:text-black transition-all duration-500 cursor-pointer">
-                    <div class="mb-6 text-gray-500 group-hover:text-black transition-colors">
-                        <i data-lucide="play-circle" class="w-10 h-10"></i>
+                <div class="service-item py-8 hover-target" data-service="3">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-8">
+                            <span class="text-gray-500 font-display text-sm">03</span>
+                            <h3 class="font-display text-3xl md:text-5xl font-bold">Development</h3>
+                        </div>
+                        <div class="service-icon w-12 h-12 rounded-full border border-white/20 flex items-center justify-center transition-transform duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                        </div>
                     </div>
-                    <h3 class="font-display text-2xl font-bold mb-4">Motion Design</h3>
-                    <p class="text-gray-400 group-hover:text-gray-600 text-sm leading-relaxed">
-                        Dynamic animations and motion graphics that bring brands to life across all digital touchpoints.
-                    </p>
-                    <div class="mt-6 flex items-center gap-2 text-sm uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                        <span>Learn More</span>
-                        <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    <div class="service-content">
+                        <div class="pt-6 pb-2 pl-16 md:pl-20 max-w-2xl">
+                            <p class="text-gray-400 text-lg leading-relaxed">
+                                Robust, scalable development solutions. From custom web applications to e-commerce platforms, we build technology that powers your business forward.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-item py-8 hover-target" data-service="4">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center gap-8">
+                            <span class="text-gray-500 font-display text-sm">04</span>
+                            <h3 class="font-display text-3xl md:text-5xl font-bold">Motion Design</h3>
+                        </div>
+                        <div class="service-icon w-12 h-12 rounded-full border border-white/20 flex items-center justify-center transition-transform duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="service-content">
+                        <div class="pt-6 pb-2 pl-16 md:pl-20 max-w-2xl">
+                            <p class="text-gray-400 text-lg leading-relaxed">
+                                Bring your brand to life with captivating animations and motion graphics. We create dynamic visual experiences that engage and inspire your audience.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About Section -->
-    <section id="about" class="py-32 px-6 relative">
+    <!-- About/Philosophy Section -->
+    <section id="about" class="py-32 px-6 relative overflow-hidden">
         <div class="max-w-7xl mx-auto">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div class="relative">
-                    <div class="aspect-[3/4] rounded-2xl overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80" alt="Studio" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
-                    </div>
-                    <div class="absolute -bottom-8 -right-8 w-48 h-48 bg-gradient-to-br from-orange-500 to-purple-600 rounded-2xl -z-10"></div>
-                </div>
-                
                 <div>
-                    <p class="text-sm uppercase tracking-widest text-gray-500 mb-4">About Us</p>
-                    <h2 class="font-display text-5xl md:text-6xl font-bold mb-8">Crafting digital excellence since 2018</h2>
+                    <p class="text-[#FF3366] text-sm uppercase tracking-widest mb-4">About Us</p>
+                    <h2 class="font-display text-4xl md:text-6xl font-bold mb-8 leading-tight">
+                        We believe in the power of design to transform businesses
+                    </h2>
                     <div class="space-y-6 text-gray-400 text-lg leading-relaxed">
                         <p>
-                            Ehan Studio is a multidisciplinary creative agency specializing in brand strategy, digital design, and technology. We partner with ambitious brands to create meaningful connections through exceptional digital experiences.
+                            Founded in 2016, Ehan Studio has grown from a small design consultancy to a full-service creative agency. We work with ambitious brands who want to make an impact.
                         </p>
                         <p>
-                            Our team of strategists, designers, and developers work collaboratively to deliver solutions that not only look stunning but drive real business results. We believe in the power of design to transform businesses and touch lives.
+                            Our team of strategists, designers, and developers collaborate closely to deliver work that not only looks beautiful but drives real results. We're not just service providers—we're partners in your success.
                         </p>
                     </div>
-                    
-                    <div class="grid grid-cols-3 gap-8 mt-12 pt-12 border-t border-white/10">
-                        <div>
-                            <span class="font-display text-4xl font-bold gradient-text-accent">150+</span>
-                            <p class="text-gray-500 text-sm mt-2">Projects Delivered</p>
+                    <div class="mt-10 flex gap-4">
+                        <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#FF3366] transition-colors cursor-pointer hover-target">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
                         </div>
-                        <div>
-                            <span class="font-display text-4xl font-bold gradient-text-accent">40+</span>
-                            <p class="text-gray-500 text-sm mt-2">Happy Clients</p>
+                        <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#FF3366] transition-colors cursor-pointer hover-target">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                         </div>
-                        <div>
-                            <span class="font-display text-4xl font-bold gradient-text-accent">12</span>
-                            <p class="text-gray-500 text-sm mt-2">Awards Won</p>
+                        <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#FF3366] transition-colors cursor-pointer hover-target">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="py-32 px-6 bg-neutral-900/30">
-        <div class="max-w-5xl mx-auto text-center">
-            <i data-lucide="quote" class="w-12 h-12 text-gray-600 mx-auto mb-8"></i>
-            <blockquote class="font-display text-3xl md:text-5xl font-bold leading-tight mb-8">
-                "Ehan Studio transformed our digital presence completely. Their attention to detail and creative vision exceeded all our expectations."
-            </blockquote>
-            <div class="flex items-center justify-center gap-4">
-                <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80" alt="Client" class="w-12 h-12 rounded-full object-cover">
-                <div class="text-left">
-                    <p class="font-bold">Marcus Chen</p>
-                    <p class="text-gray-500 text-sm">CEO, TechVentures</p>
+                <div class="relative">
+                    <div class="aspect-[4/5] rounded-2xl overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80" alt="Team" class="w-full h-full object-cover">
+                    </div>
+                    <div class="absolute -bottom-8 -left-8 w-48 h-48 bg-[#FF3366] rounded-2xl -z-10"></div>
+                    <div class="absolute -top-8 -right-8 w-32 h-32 border border-white/20 rounded-2xl"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="py-32 px-6 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-purple-900/10 to-transparent"></div>
-        
-        <div class="max-w-4xl mx-auto relative z-10 text-center">
-            <p class="text-sm uppercase tracking-widest text-gray-500 mb-4">Get In Touch</p>
-            <h2 class="font-display text-5xl md:text-7xl font-bold mb-8">Let's create<br>something great</h2>
-            <p class="text-gray-400 text-lg mb-12 max-w-2xl mx-auto">
-                Have a project in mind? We'd love to hear about it. Let's discuss how we can help bring your vision to life.
+    <!-- CTA Section -->
+    <section id="contact" class="py-32 px-6 footer-wrapper bg-[#0a0a0a]">
+        <div class="max-w-5xl mx-auto text-center">
+            <p class="text-[#FF3366] text-sm uppercase tracking-widest mb-6">Start a Project</p>
+            <h2 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
+                Let's create<br>something amazing
+            </h2>
+            <p class="text-gray-400 text-xl mb-12 max-w-2xl mx-auto">
+                Ready to transform your digital presence? We'd love to hear about your project.
             </p>
-            
-            <a href="mailto:hello@ehan.studio" class="magnetic-btn inline-flex items-center gap-4 px-12 py-6 bg-white text-black rounded-full text-lg font-bold hover:scale-105 transition-transform group">
-                <span>Start a Project</span>
-                <i data-lucide="arrow-up-right" class="w-5 h-5 group-hover:rotate-45 transition-transform"></i>
+            <a href="mailto:hello@ehan.studio" class="magnetic-btn text-xl hover-target">
+                <span class="font-display font-medium">Get in Touch</span>
             </a>
-            
-            <div class="mt-20 flex flex-col md:flex-row justify-center items-center gap-8 text-gray-500">
-                <a href="mailto:hello@ehan.studio" class="hover:text-white transition-colors">hello@ehan.studio</a>
-                <span class="hidden md:block">•</span>
-                <a href="tel:+1234567890" class="hover:text-white transition-colors">+1 (234) 567-890</a>
-                <span class="hidden md:block">•</span>
-                <span>New York, NY</span>
-            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-12 px-6 border-t border-white/10">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="font-display text-2xl font-bold">EHAN<span class="text-gray-500">.</span></div>
-            
-            <div class="flex gap-6">
-                <a href="#" class="hover:text-gray-400 transition-colors"><i data-lucide="twitter" class="w-5 h-5"></i></a>
-                <a href="#" class="hover:text-gray-400 transition-colors"><i data-lucide="instagram" class="w-5 h-5"></i></a>
-                <a href="#" class="hover:text-gray-400 transition-colors"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
-                <a href="#" class="hover:text-gray-400 transition-colors"><i data-lucide="dribbble" class="w-5 h-5"></i></a>
+    <footer class="bg-[#050505] py-20 px-6 border-t border-white/10">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                <div class="md:col-span-2">
+                    <a href="#" class="font-display text-3xl font-bold tracking-tighter mb-4 inline-block">
+                        EHAN<span class="text-[#FF3366]">.</span>
+                    </a>
+                    <p class="text-gray-400 max-w-sm mt-4">
+                        A creative design studio crafting digital experiences that inspire and convert.
+                    </p>
+                </div>
+                <div>
+                    <h4 class="font-display font-bold mb-4">Navigation</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#work" class="hover:text-white transition-colors">Work</a></li>
+                        <li><a href="#services" class="hover:text-white transition-colors">Services</a></li>
+                        <li><a href="#about" class="hover:text-white transition-colors">About</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-display font-bold mb-4">Contact</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li>hello@ehan.studio</li>
+                        <li>+1 (555) 123-4567</li>
+                        <li>123 Design Street<br>New York, NY 10001</li>
+                    </ul>
+                </div>
             </div>
-            
-            <p class="text-gray-600 text-sm">© 2024 Ehan Studio. All rights reserved.</p>
+            <div class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10">
+                <p class="text-gray-500 text-sm">© 2024 Ehan Studio. All rights reserved.</p>
+                <div class="flex gap-6 mt-4 md:mt-0">
+                    <a href="#" class="text-gray-500 hover:text-white text-sm transition-colors">Privacy Policy</a>
+                    <a href="#" class="text-gray-500 hover:text-white text-sm transition-colors">Terms of Service</a>
+                </div>
+            </div>
         </div>
     </footer>
 
     <script>
-        // Initialize Lucide Icons
-        lucide.createIcons();
-        
-        // Remove Loader
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('loader').classList.add('hidden');
-            }, 1000);
-        });
+        // Register GSAP plugins
+        gsap.registerPlugin(ScrollTrigger);
         
         // Custom Cursor
-        const cursorDot = document.querySelector('.cursor-dot');
-        const cursorOutline = document.querySelector('.cursor-outline');
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let followerX = 0, followerY = 0;
         
-        window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-            
-            cursorDot.style.left = `${posX}px`;
-            cursorDot.style.top = `${posY}px`;
-            
-            cursorOutline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 500, fill: "forwards" });
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
+        
+        function animateCursor() {
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            followerX += (mouseX - followerX) * 0.1;
+            followerY += (mouseY - followerY) * 0.1;
+            
+            cursor.style.left = cursorX - 10 + 'px';
+            cursor.style.top = cursorY - 10 + 'px';
+            follower.style.left = followerX - 20 + 'px';
+            follower.style.top = followerY - 20 + 'px';
+            
+            requestAnimationFrame(animateCursor);
+        }
+        animateCursor();
         
         // Hover effect for cursor
-        const interactiveElements = document.querySelectorAll('a, button, .project-card, .service-card');
-        interactiveElements.forEach(el => {
-            el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+        document.querySelectorAll('.hover-target').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
         });
         
-        // Mobile Menu
-        const menuBtn = document.getElementById('menuBtn');
-        const closeMenu = document.getElementById('closeMenu');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
+        // Hero Animation
+        const heroTimeline = gsap.timeline();
         
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.remove('translate-x-full');
+        heroTimeline
+            .to('.hero-subtitle', {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                ease: 'power3.out'
+            })
+            .from('.hero-title span', {
+                y: '100%',
+                duration: 1.2,
+                stagger: 0.1,
+                ease: 'power3.out'
+            }, '-=0.5')
+            .to('.hero-cta', {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: 'power3.out'
+            }, '-=0.5');
+        
+        // Parallax on scroll
+        gsap.to('.hero-title', {
+            scrollTrigger: {
+                trigger: 'body',
+                start: 'top top',
+                end: 'bottom top',
+                scrub: 1
+            },
+            y: -200,
+            opacity: 0
         });
         
-        closeMenu.addEventListener('click', () => {
-            mobileMenu.classList.add('translate-x-full');
-        });
-        
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('translate-x-full');
+        // Project cards parallax
+        document.querySelectorAll('.project-card').forEach((card, i) => {
+            const speed = card.dataset.speed || 1;
+            gsap.to(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: 1
+                },
+                y: (i % 2 === 0 ? -50 : 50) * speed
             });
         });
         
-        // Magnetic Button Effect
-        const magneticBtns = document.querySelectorAll('.magnetic-btn');
-        magneticBtns.forEach(btn => {
+        // Stats Counter Animation
+        const stats = document.querySelectorAll('.stat-number');
+        stats.forEach(stat => {
+            const target = parseInt(stat.dataset.target);
+            
+            ScrollTrigger.create({
+                trigger: stat,
+                start: 'top 80%',
+                onEnter: () => {
+                    gsap.to(stat, {
+                        innerHTML: target,
+                        duration: 2,
+                        snap: { innerHTML: 1 },
+                        ease: 'power2.out'
+                    });
+                },
+                once: true
+            });
+        });
+        
+        // Services Accordion
+        document.querySelectorAll('.service-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+                
+                // Close all
+                document.querySelectorAll('.service-item').forEach(i => i.classList.remove('active'));
+                
+                // Open clicked if wasn't active
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+        
+        // Magnetic Buttons
+        document.querySelectorAll('.magnetic-btn').forEach(btn => {
             btn.addEventListener('mousemove', (e) => {
                 const rect = btn.getBoundingClientRect();
                 const x = e.clientX - rect.left - rect.width / 2;
                 const y = e.clientY - rect.top - rect.height / 2;
                 
-                btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                gsap.to(btn, {
+                    x: x * 0.3,
+                    y: y * 0.3,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
             });
             
             btn.addEventListener('mouseleave', () => {
-                btn.style.transform = 'translate(0, 0)';
+                gsap.to(btn, {
+                    x: 0,
+                    y: 0,
+                    duration: 0.3,
+                    ease: 'power2.out'
+                });
             });
         });
         
-        // Scroll Reveal Animation
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        };
+        // Scroll velocity skew effect
+        let currentSkew = 0;
+        let targetSkew = 0;
+        let lastScroll = 0;
         
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = "1";
-                    entry.target.style.transform = "translateY(0)";
-                }
-            });
-        }, observerOptions);
-        
-        // Observe elements
-        document.querySelectorAll('.project-card, .service-card').forEach((el, index) => {
-            el.style.opacity = "0";
-            el.style.transform = "translateY(30px)";
-            el.style.transition = `all 0.6s cubic-bezier(0.23, 1, 0.32, 1) ${index * 0.1}s`;
-            observer.observe(el);
-        });
-        
-        // Parallax Effect on Scroll
         window.addEventListener('scroll', () => {
-            const scrolled = window.pageYOffset;
-            const parallaxElements = document.querySelectorAll('.float-animation');
+            const scrollY = window.scrollY;
+            const velocity = scrollY - lastScroll;
+            targetSkew = Math.max(-5, Math.min(5, velocity * 0.1));
+            lastScroll = scrollY;
+        }, { passive: true });
+        
+        function updateSkew() {
+            currentSkew += (targetSkew - currentSkew) * 0.1;
+            targetSkew *= 0.95;
             
-            parallaxElements.forEach((el, index) => {
-                const speed = 0.5 + (index * 0.1);
-                el.style.transform = `translateY(${scrolled * speed}px)`;
+            document.querySelectorAll('.velocity-skew').forEach(el => {
+                el.style.transform = `skewY(${currentSkew}deg)`;
+            });
+            
+            requestAnimationFrame(updateSkew);
+        }
+        updateSkew();
+        
+        // Reveal animations on scroll
+        gsap.utils.toArray('section').forEach(section => {
+            gsap.from(section.querySelectorAll('h2, p, .project-card, .service-item, .stat-item'), {
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: 'power3.out'
             });
         });
         
-        // Smooth scroll for navigation links
+        // Smooth scroll for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const target = document.querySelector(this.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                    gsap.to(window, {
+                        duration: 1,
+                        scrollTo: { y: target, offsetY: 70 },
+                        ease: 'power3.inOut'
                     });
                 }
             });
         });
+        
+        // Initialize first service as open
+        document.querySelector('.service-item').classList.add('active');
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
 </body>
-</html>
+</html>'''
+
+# Save to output file
+with open('/mnt/kimi/output/ehan_studio.html', 'w', encoding='utf-8') as f:
+    f.write(html_content)
+
+print("Ehan Studio website created successfully!")
+print("\nFeatures included:")
+print("- Custom animated cursor with hover effects")
+print("- Grain texture overlay for premium feel")
+print("- Floating gradient orbs with blur effects")
+print("- GSAP-powered scroll animations")
+print("- Parallax project cards with hover overlays")
+print("- Animated statistics counter")
+print("- Accordion services section")
+print("- Magnetic buttons with hover fill effect")
+print("- Infinite marquee text animation")
+print("- Velocity-based scroll skew effects")
+print("- Smooth scroll navigation")
+print("- Responsive design")
