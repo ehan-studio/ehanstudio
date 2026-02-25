@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The HR Survival Guide: Mastering Annoying Interview Questions</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --primary: #1a1a2e;
+            --accent: #e94560;
+            --gold: #ffd700;
+            --text: #16213e;
+            --light: #f5f5f5;
+            --paper: #fafafa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .book-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--paper);
+            min-height: 100vh;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+        
+        /* Cover Page */
+        .cover {
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary) 0%, #16213e 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(233, 69, 96, 0.05) 10px,
+                rgba(233, 69, 96, 0.05) 20px
+            );
+            animation: slide 20s linear infinite;
+        }
+        
+        @keyframes slide {
+            0% { transform: translate(-50%, -50%); }
+            100% { transform: translate(0, 0); }
+        }
+        
+        .cover-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cover h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+        
+        .cover h1 span {
+            color: var(--accent);
+            display: block;
+            font-size: 1.2em;
+        }
+        
+        .subtitle {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+        
+        .author-badge {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            color: var(--gold);
+            font-weight: 600;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            color: rgba(255,255,255,0.5);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        /* Navigation */
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #eee;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .progress-bar {
+            width: 200px;
+            height: 4px;
+            background: #eee;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        /* Content Sections */
+        .content {
+            padding: 4rem 3rem;
+        }
+        
+        .chapter {
+            margin-bottom: 6rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .chapter.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .chapter-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 1rem;
+        }
+        
+        .chapter-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--accent);
+            line-height: 1;
+        }
+        
+        .chapter-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .intro-text {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 3rem;
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 1.5rem;
+        }
+        
+        /* Question Cards */
+        .question-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .question-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .question-tag {
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .difficulty {
+            display: flex;
+            gap: 0.25rem;
+        }
+        
+        .difficulty-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+        
+        .difficulty-dot.active {
+            background: var(--accent);
+        }
+        
+        .question-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .answer-section {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+        
+        .question-card.expanded .answer-section {
+            max-height: 1000px;
+        }
+        
+        .answer-content {
+            padding-top: 1.5rem;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .strategy {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--gold);
+        }
+        
+        .strategy h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .script-box {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        
+        .script-box::before {
+            content: 'SAMPLE SCRIPT';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .trap-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            gap: 1rem;
+            align-items: start;
+            margin-top: 1rem;
+        }
+        
+        .trap-warning::before {
+            content: '⚠️';
+            font-size: 1.5rem;
+        }
+        
+        .toggle-btn {
+            background: none;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .toggle-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .cheat-sheet {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 16px;
+            margin: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cheat-sheet::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.1);
+            transform: rotate(45deg);
+        }
+        
+        .cheat-sheet h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .cheat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cheat-item {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .cheat-item h4 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Interactive Checklist */
+        .checklist {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin: 2rem 0;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .checklist-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+        
+        .checklist-item.checked {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+        
+        /* Footer */
+        .book-footer {
+            background: var(--primary);
+            color: white;
+            padding: 4rem 3rem;
+            text-align: center;
+        }
+        
+        .book-footer h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(233, 69, 96, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .cover h1 { font-size: 2.5rem; }
+            .chapter-title { font-size: 1.8rem; }
+            .content { padding: 2rem 1.5rem; }
+            .chapter-number { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="book-container">
+        <!-- Cover Page -->
+        <section class="cover">
+            <div class="cover-content">
+                <h1>The HR <span>Survival Guide</span></h1>
+                <p class="subtitle">How to Answer Annoying Interview Questions Without Losing Your Mind (or the Job)</p>
+                <div class="author-badge">Digital Edition 2024</div>
+            </div>
+            <div class="scroll-indicator">↓ Scroll to begin</div>
+        </section>
+
+        <!-- Navigation -->
+        <nav class="nav-bar">
+            <div class="nav-logo">HR Survival Guide</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </nav>
+
+        <!-- Table of Contents -->
+        <div class="content">
+            <div class="chapter visible">
+                <div class="chapter-header">
+                    <span class="chapter-number">00</span>
+                    <h2 class="chapter-title">Mission Briefing</h2>
+                </div>
+                <p class="intro-text">
+                    Welcome to the trenches of modern job hunting. This isn't another boring career guide—this is your tactical handbook for surviving the psychological warfare of HR interviews.
+                </p>
+                
+                <div class="cheat-sheet">
+                    <h3>🎯 The Golden Rules</h3>
+                    <div class="cheat-grid">
+                        <div class="cheat-item">
+                            <h4>Never Badmouth</h4>
+                            <p>Even if your last boss was a nightmare, stay professional. Complaining = Red flag.</p>
+                        </div>
+                        <div class="cheat-item">
+                            <h4>Always Pivot</h4>
+                            <p>Every question is an opportunity to highlight your value. Redirect strategically.</p>
+                        </div>
+                        <div class="cheat-item">
+                            <h4>Be Specific</h4>
+                            <p>Vague answers kill interviews. Use the STAR method: Situation, Task, Action, Result.</p>
+                        </div>
+                        <div class="cheat-item">
+                            <h4>Ask Back</h4>
+                            <p>Turn the tables. "That's an interesting question—what does success look like in this role?"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chapter 1: The Weakness Trap -->
+            <div class="chapter">
+                <div class="chapter-header">
+                    <span class="chapter-number">01</span>
+                    <h2 class="chapter-title">The Weakness Trap</h2>
+                </div>
+                <p class="intro-text">
+                    "What's your greatest weakness?" The most dreaded question in interview history. Here's how to turn this trap into a triumph.
+                </p>
+
+                <div class="question-card" onclick="toggleCard(this)">
+                    <div class="question-header">
+                        <span class="question-tag">Classic Trap</span>
+                        <div class="difficulty">
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                        </div>
+                    </div>
+                    <h3 class="question-text">"What's your greatest weakness?"</h3>
+                    <button class="toggle-btn">Reveal Strategy ↓</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <div class="strategy">
+                                <h4>The Strategy</h4>
+                                <p>Never give a real weakness that disqualifies you (e.g., "I'm always late" or "I hate details"). Instead, choose a real but non-critical weakness that you've actively worked to improve. Show self-awareness + growth mindset.</p>
+                            </div>
+                            
+                            <div class="script-box">
+                                "I've historically struggled with delegating tasks because I hold myself to very high standards. However, in my last role, I realized this was limiting my team's growth. I've since worked on providing clearer briefs upfront and establishing check-in points rather than micromanaging. The result? My team delivered a project 20% faster, and I was able to focus on higher-level strategy."
+                            </div>
+                            
+                            <div class="trap-warning">
+                                <div>
+                                    <strong>Avoid:</strong> "I'm a perfectionist" (too cliché), "I work too hard" (obvious humble-brag), or any weakness related to core job requirements (e.g., saying you're disorganized for a project manager role).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" onclick="toggleCard(this)">
+                    <div class="question-header">
+                        <span class="question-tag">Variation</span>
+                        <div class="difficulty">
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot"></div>
+                        </div>
+                    </div>
+                    <h3 class="question-text">"Tell me about a time you failed."</h3>
+                    <button class="toggle-btn">Reveal Strategy ↓</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <div class="strategy">
+                                <h4>The Strategy</h4>
+                                <p>Pick a real failure (not trivial), take full ownership (no blaming), explain the lesson learned, and prove you've implemented changes. The failure should be in the past—show you've grown since.</p>
+                            </div>
+                            
+                            <div class="script-box">
+                                "Early in my career, I launched a marketing campaign without A/B testing the messaging first. We spent $10K and saw minimal engagement. I took full responsibility and proposed we pause, analyze the data, and relaunch with two variants. The revised campaign performed 3x better. Now, I never launch without testing—I've even implemented a 'test budget' rule for all campaigns."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chapter 2: The Money Talk -->
+            <div class="chapter">
+                <div class="chapter-header">
+                    <span class="chapter-number">02</span>
+                    <h2 class="chapter-title">The Money Talk</h2>
+                </div>
+                <p class="intro-text">
+                    Salary questions are designed to either anchor you low or eliminate you. Never give a number first. Here's how to navigate the negotiation minefield.
+                </p>
+
+                <div class="question-card" onclick="toggleCard(this)">
+                    <div class="question-header">
+                        <span class="question-tag">Danger Zone</span>
+                        <div class="difficulty">
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                        </div>
+                    </div>
+                    <h3 class="question-text">"What are your salary expectations?"</h3>
+                    <button class="toggle-btn">Reveal Strategy ↓</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <div class="strategy">
+                                <h4>The Strategy</h4>
+                                <p>Deflect until you have an offer. If forced, give a researched range (never a single number) with the bottom being your target, not your minimum. Always tie it to value, not need.</p>
+                            </div>
+                            
+                            <div class="script-box">
+                                "I'm looking for a competitive package that reflects the value I bring, particularly my experience in [specific skill]. Based on my research of similar roles in this market and considering my track record of [specific achievement], I'm expecting a range of $X to $Y. However, I'm flexible on the structure—base, bonus, equity, benefits—and would love to hear more about the total compensation package you have in mind."
+                            </div>
+                            
+                            <div class="trap-warning">
+                                <div>
+                                    <strong>Never say:</strong> "I need at least $X to pay my rent" (they don't care about your expenses), "I'm open to anything" (you'll get lowballed), or give your current salary (illegal in some states, and irrelevant to your market value).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" onclick="toggleCard(this)">
+                    <div class="question-header">
+                        <span class="question-tag">Trick Question</span>
+                        <div class="difficulty">
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                        </div>
+                    </div>
+                    <h3 class="question-text">"What did you make at your last job?"</h3>
+                    <button class="toggle-btn">Reveal Strategy ↓</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <div class="strategy">
+                                <h4>The Strategy</h4>
+                                <p>This is often illegal (check your state laws) and always irrelevant. Pivot immediately to your target range based on market research, not past underpayment.</p>
+                            </div>
+                            
+                            <div class="script-box">
+                                "I'm focusing on the value I can bring to this role rather than looking backward. Based on the responsibilities we've discussed and market rates for this level of position, I'm targeting $X to $Y. I'm confident that's fair given my background in [specific expertise] and my ability to [specific contribution]."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chapter 3: The Loyalty Test -->
+            <div class="chapter">
+                <div class="chapter-header">
+                    <span class="chapter-number">03</span>
+                    <h2 class="chapter-title">The Loyalty Test</h2>
+                </div>
+                <p class="intro-text">
+                    Questions designed to test if you'll jump ship or if you're a flight risk. They want commitment without guaranteeing anything themselves.
+                </p>
+
+                <div class="question-card" onclick="toggleCard(this)">
+                    <div class="question-header">
+                        <span class="question-tag">Red Flag</span>
+                        <div class="difficulty">
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                        </div>
+                    </div>
+                    <h3 class="question-text">"Where do you see yourself in 5 years?"</h3>
+                    <button class="toggle-btn">Reveal Strategy ↓</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <div class="strategy">
+                                <h4>The Strategy</h4>
+                                <p>Show ambition but tie it to growing WITH this company. Avoid suggesting you want their job (threatening) or that you see this as a stepping stone (insulting). Focus on skill development and impact.</p>
+                            </div>
+                            
+                            <div class="script-box">
+                                "In five years, I want to be an expert in [industry-specific skill] and have contributed to meaningful growth here. I'm particularly excited about [company's specific initiative], and I see myself leading projects in that area. I'm also passionate about mentorship, so I hope to be helping junior team members grow while continuing to expand my own strategic capabilities."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" onclick="toggleCard(this)">
+                    <div class="question-header">
+                        <span class="question-tag">Stress Test</span>
+                        <div class="difficulty">
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                        </div>
+                    </div>
+                    <h3 class="question-text">"Why should we hire you over other candidates?"</h3>
+                    <button class="toggle-btn">Reveal Strategy ↓</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <div class="strategy">
+                                <h4>The Strategy</h4>
+                                <p>This is your closing argument. Don't be modest, but don't trash others. Connect your unique combination of skills directly to their pain points. Use evidence.</p>
+                            </div>
+                            
+                            <div class="script-box">
+                                "You should hire me because I bring the exact combination you need: deep technical expertise in [skill] plus proven experience scaling teams through [specific challenge they're facing]. In my last role, I [specific metric]. I'm not just looking for any job—I'm specifically excited about [company's mission] because [personal connection]. That alignment means I'll bring not just skills, but genuine passion to this work every day."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chapter 4: The Trap Door -->
+            <div class="chapter">
+                <div class="chapter-header">
+                    <span class="chapter-number">04</span>
+                    <h2 class="chapter-title">The Trap Door</h2>
+                </div>
+                <p class="intro-text">
+                    Illegal questions disguised as small talk. Questions about family, age, religion, or health. Here's how to dodge without offending.
+                </p>
+
+                <div class="question-card" onclick="toggleCard(this)">
+                    <div class="question-header">
+                        <span class="question-tag">Illegal</span>
+                        <div class="difficulty">
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                        </div>
+                    </div>
+                    <h3 class="question-text">"Do you have kids? / Planning to start a family?"</h3>
+                    <button class="toggle-btn">Reveal Strategy ↓</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <div class="strategy">
+                                <h4>The Strategy</h4>
+                                <p>This is illegal in most jurisdictions but common. Don't answer directly. Pivot to your commitment to work or ask how it's relevant. Stay professional, not defensive.</p>
+                            </div>
+                            
+                            <div class="script-box">
+                                "I prefer to keep my personal and professional life separate, but I can assure you that I'm fully committed to delivering excellent results in this role. I'm curious—how does the team typically handle work-life balance here?" [Or] "I'm fully available to meet the demands of this position. Can you tell me more about the travel requirements or schedule expectations?"
+                            </div>
+                            
+                            <div class="trap-warning">
+                                <div>
+                                    <strong>Document this.</strong> If they ask illegal questions, it signals a toxic culture. Consider if you want to work somewhere that violates basic employment law in the interview.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" onclick="toggleCard(this)">
+                    <div class="question-header">
+                        <span class="question-tag">Ageism</span>
+                        <div class="difficulty">
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                        </div>
+                    </div>
+                    <h3 class="question-text">"You seem overqualified. Won't you get bored?"</h3>
+                    <button class="toggle-btn">Reveal Strategy ↓</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <div class="strategy">
+                                <h4>The Strategy</h4>
+                                <p>Translation: "You're too old/expensive." Reframe "overqualified" as "highly experienced" and emphasize mentorship, stability, and wisdom. Address the real fear: that you'll leave.</p>
+                            </div>
+                            
+                            <div class="script-box">
+                                "I appreciate the concern, but I'm at a stage where I'm looking for meaningful work, not just climbing ladders. Your company's mission in [specific area] genuinely excites me, and I see opportunities here to mentor younger team members while contributing at a high level. I'm looking for a place to make a long-term impact, not a stepping stone. My experience means I can hit the ground running and help avoid pitfalls I've seen before."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preparation Checklist -->
+            <div class="chapter">
+                <div class="chapter-header">
+                    <span class="chapter-number">05</span>
+                    <h2 class="chapter-title">Pre-Game Checklist</h2>
+                </div>
+                <p class="intro-text">
+                    Before you walk into that room (or join that Zoom), make sure you're locked and loaded.
+                </p>
+
+                <div class="checklist">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--primary);">Mission Prep</h3>
+                    <label class="checklist-item">
+                        <input type="checkbox" onchange="toggleCheck(this)">
+                        <span>Researched the company's last 3 quarterly earnings/crises</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" onchange="toggleCheck(this)">
+                        <span>Prepared 3 specific stories using STAR method</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" onchange="toggleCheck(this)">
+                        <span>Know the salary range for this role in this market</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" onchange="toggleCheck(this)">
+                        <span>Prepared questions that show strategic thinking (not "what's the culture like?")</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" onchange="toggleCheck(this)">
+                        <span>Practiced the "Tell me about yourself" 2-minute pitch</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" onchange="toggleCheck(this)">
+                        <span>Have a portfolio/backup plan ready for "show don't tell"</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" onchange="toggleCheck(this)">
+                        <span>Checked LinkedIn for interviewer's background (find common ground)</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="book-footer">
+            <h2>You've Got This</h2>
+            <p style="opacity: 0.8; max-width: 600px; margin: 0 auto;">
+                Remember: Interviews are mutual evaluations. You're interviewing them too. The right job won't require you to fake who you are—it will value what you actually bring.
+            </p>
+            <a href="#" class="cta-button" onclick="window.print()">Save This Guide (Print/PDF)</a>
+            <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.6;">
+                © 2024 HR Survival Guide • Digital Edition
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Toggle question cards
+        function toggleCard(card) {
+            // Prevent toggling when clicking the button specifically (handled separately)
+            if (event.target.tagName === 'BUTTON') return;
+            card.classList.toggle('expanded');
+        }
+        
+        // Handle button clicks specifically
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = btn.closest('.question-card');
+                card.classList.toggle('expanded');
+                btn.textContent = card.classList.contains('expanded') ? 'Hide Strategy ↑' : 'Reveal Strategy ↓';
+            });
+        });
+
+        // Checklist functionality
+        function toggleCheck(checkbox) {
+            const item = checkbox.closest('.checklist-item');
+            if (checkbox.checked) {
+                item.classList.add('checked');
+            } else {
+                item.classList.remove('checked');
+            }
+        }
+
+        // Scroll progress
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + "%";
+        });
+
+        // Intersection Observer for fade-in animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.chapter').forEach((chapter) => {
+            observer.observe(chapter);
+        });
+
+        // Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
