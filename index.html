@@ -1,20 +1,19 @@
-
-html_content = '''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ehan Studio — Creative Design Agency</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>The HR Survival Guide: Mastering Annoying Interview Questions</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap');
+        
         :root {
-            --primary: #FF3366;
-            --secondary: #6C5CE7;
-            --dark: #0a0a0a;
-            --light: #fafafa;
+            --primary: #1a1a2e;
+            --accent: #e94560;
+            --gold: #ffd700;
+            --text: #16213e;
+            --light: #f5f5f5;
+            --paper: #fafafa;
         }
         
         * {
@@ -25,844 +24,905 @@ html_content = '''<!DOCTYPE html>
         
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--dark);
-            color: var(--light);
-            overflow-x: hidden;
-            cursor: none;
-        }
-        
-        .font-display {
-            font-family: 'Space Grotesk', sans-serif;
-        }
-        
-        /* Custom Cursor */
-        .cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--primary);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s, background 0.3s;
-            mix-blend-mode: difference;
-        }
-        
-        .cursor-follower {
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 51, 102, 0.1);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9998;
-            transition: transform 0.3s ease-out;
-        }
-        
-        .cursor.hover {
-            transform: scale(2);
             background: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
         
-        /* Grain Overlay */
-        .grain {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 9990;
-            opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        .book-container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--paper);
+            min-height: 100vh;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+        
+        /* Cover Page */
+        .cover {
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary) 0%, #16213e 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 10px,
+                rgba(233, 69, 96, 0.05) 10px,
+                rgba(233, 69, 96, 0.05) 20px
+            );
+            animation: slide 20s linear infinite;
+        }
+        
+        @keyframes slide {
+            0% { transform: translate(-50%, -50%); }
+            100% { transform: translate(0, 0); }
+        }
+        
+        .cover-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cover h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+        
+        .cover h1 span {
+            color: var(--accent);
+            display: block;
+            font-size: 1.2em;
+        }
+        
+        .subtitle {
+            color: rgba(255,255,255,0.8);
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            font-weight: 300;
+        }
+        
+        .author-badge {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            color: var(--gold);
+            font-weight: 600;
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+        
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            color: rgba(255,255,255,0.5);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
         
         /* Navigation */
-        .nav-link {
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background: var(--primary);
-            transform: translateX(-100%);
-            transition: transform 0.3s ease;
-        }
-        
-        .nav-link:hover::after {
-            transform: translateX(0);
-        }
-        
-        /* Hero Text Animation */
-        .char {
-            display: inline-block;
-            transform: translateY(100%);
-            opacity: 0;
-        }
-        
-        /* Marquee */
-        .marquee-container {
-            overflow: hidden;
-            white-space: nowrap;
-        }
-        
-        .marquee-content {
-            display: inline-flex;
-            animation: marquee 20s linear infinite;
-        }
-        
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        
-        /* Project Cards */
-        .project-card {
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .project-card:hover {
-            transform: scale(0.98);
-        }
-        
-        .project-card img {
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .project-card:hover img {
-            transform: scale(1.1);
-        }
-        
-        .project-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-            opacity: 0;
-            transition: opacity 0.4s ease;
+        .nav-bar {
+            position: sticky;
+            top: 0;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #eee;
+            z-index: 100;
             display: flex;
-            align-items: flex-end;
-            padding: 2rem;
-        }
-        
-        .project-card:hover .project-overlay {
-            opacity: 1;
-        }
-        
-        /* Magnetic Button */
-        .magnetic-btn {
-            position: relative;
-            display: inline-flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            padding: 1.5rem 3rem;
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 100px;
+        }
+        
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .progress-bar {
+            width: 200px;
+            height: 4px;
+            background: #eee;
+            border-radius: 2px;
             overflow: hidden;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         
-        .magnetic-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--primary);
-            transform: translateY(100%);
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.3s;
         }
         
-        .magnetic-btn:hover::before {
+        /* Content Sections */
+        .content {
+            padding: 4rem 3rem;
+        }
+        
+        .chapter {
+            margin-bottom: 6rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .chapter.visible {
+            opacity: 1;
             transform: translateY(0);
         }
         
-        .magnetic-btn span {
-            position: relative;
-            z-index: 1;
-            transition: color 0.4s;
+        .chapter-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 1rem;
         }
         
-        .magnetic-btn:hover span {
-            color: white;
+        .chapter-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--accent);
+            line-height: 1;
         }
         
-        /* Services Accordion */
-        .service-item {
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+        .chapter-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .intro-text {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 3rem;
+            font-style: italic;
+            border-left: 4px solid var(--accent);
+            padding-left: 1.5rem;
+        }
+        
+        /* Question Cards */
+        .question-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+            transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
         }
         
-        .service-content {
+        .question-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .question-tag {
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .difficulty {
+            display: flex;
+            gap: 0.25rem;
+        }
+        
+        .difficulty-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ddd;
+        }
+        
+        .difficulty-dot.active {
+            background: var(--accent);
+        }
+        
+        .question-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .answer-section {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: max-height 0.5s ease;
         }
         
-        .service-item.active .service-content {
-            max-height: 300px;
+        .question-card.expanded .answer-section {
+            max-height: 1000px;
         }
         
-        .service-item.active .service-icon {
+        .answer-content {
+            padding-top: 1.5rem;
+            border-top: 2px solid #f0f0f0;
+        }
+        
+        .strategy {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--gold);
+        }
+        
+        .strategy h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .script-box {
+            background: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        
+        .script-box::before {
+            content: 'SAMPLE SCRIPT';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        
+        .trap-warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            gap: 1rem;
+            align-items: start;
+            margin-top: 1rem;
+        }
+        
+        .trap-warning::before {
+            content: '⚠️';
+            font-size: 1.5rem;
+        }
+        
+        .toggle-btn {
+            background: none;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .toggle-btn:hover {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .cheat-sheet {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 16px;
+            margin: 4rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cheat-sheet::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255,255,255,0.1);
             transform: rotate(45deg);
         }
         
-        /* Floating Shapes */
-        .float-shape {
-            position: absolute;
-            filter: blur(80px);
-            opacity: 0.5;
-            animation: float 20s ease-in-out infinite;
+        .cheat-sheet h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
         }
         
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(30px, -30px) rotate(120deg); }
-            66% { transform: translate(-20px, 20px) rotate(240deg); }
-        }
-        
-        /* Text Reveal */
-        .reveal-text {
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
-        }
-        
-        .reveal-text span {
-            display: inline-block;
-            transform: translateY(100%);
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        
-        .reveal-text.revealed span {
-            transform: translateY(0);
-        }
-        
-        /* Stats Counter */
-        .stat-number {
-            font-size: clamp(4rem, 10vw, 8rem);
-            line-height: 1;
-            font-weight: 700;
-            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.3) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        /* Footer Reveal */
-        .footer-wrapper {
+        .cheat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
         
-        footer {
-            position: sticky;
-            bottom: 0;
-            z-index: -1;
+        .cheat-item {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
         }
         
-        /* Scroll Velocity Skew */
-        .velocity-skew {
-            transition: transform 0.1s linear;
+        .cheat-item h4 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Interactive Checklist */
+        .checklist {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin: 2rem 0;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .checklist-item:hover {
+            background: #f8f9fa;
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            accent-color: var(--accent);
+            cursor: pointer;
+        }
+        
+        .checklist-item.checked {
+            opacity: 0.6;
+            text-decoration: line-through;
+        }
+        
+        /* Footer */
+        .book-footer {
+            background: var(--primary);
+            color: white;
+            padding: 4rem 3rem;
+            text-align: center;
+        }
+        
+        .book-footer h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 1rem 3rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 2rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(233, 69, 96, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .cover h1 { font-size: 2.5rem; }
+            .chapter-title { font-size: 1.8rem; }
+            .content { padding: 2rem 1.5rem; }
+            .chapter-number { font-size: 3rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Custom Cursor -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
-    
-    <!-- Grain Overlay -->
-    <div class="grain"></div>
-    
-    <!-- Floating Shapes -->
-    <div class="float-shape w-96 h-96 bg-purple-600 rounded-full top-20 -left-48" style="animation-delay: 0s;"></div>
-    <div class="float-shape w-64 h-64 bg-pink-600 rounded-full bottom-40 right-0" style="animation-delay: -5s;"></div>
-    <div class="float-shape w-80 h-80 bg-blue-600 rounded-full top-1/2 left-1/3" style="animation-delay: -10s;"></div>
-
-    <!-- Navigation -->
-    <nav class="fixed top-0 left-0 w-full z-50 px-6 py-6 mix-blend-difference">
-        <div class="flex justify-between items-center max-w-7xl mx-auto">
-            <a href="#" class="font-display text-2xl font-bold tracking-tighter hover-target">
-                EHAN<span class="text-[#FF3366]">.</span>
-            </a>
-            <div class="hidden md:flex items-center gap-8">
-                <a href="#work" class="nav-link text-sm uppercase tracking-widest hover-target">Work</a>
-                <a href="#services" class="nav-link text-sm uppercase tracking-widest hover-target">Services</a>
-                <a href="#about" class="nav-link text-sm uppercase tracking-widest hover-target">About</a>
-                <a href="#contact" class="nav-link text-sm uppercase tracking-widest hover-target">Contact</a>
+    <div class="book-container">
+        <!-- Cover Page -->
+        <section class="cover">
+            <div class="cover-content">
+                <h1>The HR <span>Survival Guide</span></h1>
+                <p class="subtitle">How to Answer Annoying Interview Questions Without Losing Your Mind (or the Job)</p>
+                <div class="author-badge">Digital Edition 2024</div>
             </div>
-            <button class="md:hidden text-white hover-target">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
-            </button>
-        </div>
-    </nav>
+            <div class="scroll-indicator">↓ Scroll to begin</div>
+        </section>
 
-    <!-- Hero Section -->
-    <section class="min-h-screen flex items-center justify-center relative overflow-hidden px-6">
-        <div class="max-w-7xl mx-auto text-center relative z-10">
-            <div class="mb-6 overflow-hidden">
-                <p class="text-sm md:text-base uppercase tracking-[0.3em] text-gray-400 hero-subtitle opacity-0">
-                    Creative Design Studio
+        <!-- Navigation -->
+        <nav class="nav-bar">
+            <div class="nav-logo">HR Survival Guide</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </nav>
+
+        <!-- Table of Contents -->
+        <div class="content">
+            <div class="chapter visible">
+                <div class="chapter-header">
+                    <span class="chapter-number">00</span>
+                    <h2 class="chapter-title">Mission Briefing</h2>
+                </div>
+                <p class="intro-text">
+                    Welcome to the trenches of modern job hunting. This isn't another boring career guide—this is your tactical handbook for surviving the psychological warfare of HR interviews.
                 </p>
-            </div>
-            <h1 class="font-display text-5xl md:text-7xl lg:text-9xl font-bold leading-none mb-8 hero-title">
-                <div class="overflow-hidden">
-                    <span class="inline-block">WE CREATE</span>
-                </div>
-                <div class="overflow-hidden">
-                    <span class="inline-block text-transparent bg-clip-text bg-gradient-to-r from-[#FF3366] to-[#6C5CE7]">DIGITAL</span>
-                </div>
-                <div class="overflow-hidden">
-                    <span class="inline-block">EXPERIENCES</span>
-                </div>
-            </h1>
-            <div class="flex flex-col md:flex-row items-center justify-center gap-4 mt-12 hero-cta opacity-0">
-                <a href="#work" class="magnetic-btn hover-target">
-                    <span class="font-display font-medium">View Our Work</span>
-                </a>
-                <a href="#contact" class="text-sm uppercase tracking-widest border-b border-white/30 pb-1 hover:border-[#FF3366] transition-colors hover-target">
-                    Get in Touch
-                </a>
-            </div>
-        </div>
-        
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-50">
-            <span class="text-xs uppercase tracking-widest">Scroll</span>
-            <div class="w-px h-12 bg-gradient-to-b from-white to-transparent"></div>
-        </div>
-    </section>
-
-    <!-- Marquee Section -->
-    <section class="py-20 border-y border-white/10 overflow-hidden">
-        <div class="marquee-container">
-            <div class="marquee-content font-display text-6xl md:text-8xl font-bold text-white/10">
-                <span class="mx-8">BRANDING</span>
-                <span class="mx-8 text-[#FF3366]">•</span>
-                <span class="mx-8">WEB DESIGN</span>
-                <span class="mx-8 text-[#6C5CE7]">•</span>
-                <span class="mx-8">DEVELOPMENT</span>
-                <span class="mx-8 text-[#FF3366]">•</span>
-                <span class="mx-8">MOTION</span>
-                <span class="mx-8 text-[#6C5CE7]">•</span>
-                <span class="mx-8">BRANDING</span>
-                <span class="mx-8 text-[#FF3366]">•</span>
-                <span class="mx-8">WEB DESIGN</span>
-                <span class="mx-8 text-[#6C5CE7]">•</span>
-                <span class="mx-8">DEVELOPMENT</span>
-                <span class="mx-8 text-[#FF3366]">•</span>
-                <span class="mx-8">MOTION</span>
-                <span class="mx-8 text-[#6C5CE7]">•</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Featured Work -->
-    <section id="work" class="py-32 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-20">
-                <div>
-                    <p class="text-[#FF3366] text-sm uppercase tracking-widest mb-4">Selected Projects</p>
-                    <h2 class="font-display text-4xl md:text-6xl font-bold">Featured Work</h2>
-                </div>
-                <a href="#" class="mt-6 md:mt-0 text-sm uppercase tracking-widest border-b border-white/30 pb-1 hover:border-[#FF3366] transition-colors hover-target">
-                    View All Projects
-                </a>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Project 1 -->
-                <div class="project-card group rounded-2xl aspect-[4/5] cursor-pointer hover-target" data-speed="1.2">
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80" alt="Project 1" class="w-full h-full object-cover">
-                    <div class="project-overlay">
-                        <div>
-                            <p class="text-[#FF3366] text-sm uppercase tracking-widest mb-2">Brand Identity</p>
-                            <h3 class="font-display text-3xl font-bold">Nexus Finance</h3>
-                        </div>
-                    </div>
-                </div>
                 
-                <!-- Project 2 -->
-                <div class="project-card group rounded-2xl aspect-[4/5] md:mt-24 cursor-pointer hover-target" data-speed="0.8">
-                    <img src="https://images.unsplash.com/photo-1634017839464-5c339ez8ebe0?w=800&q=80" alt="Project 2" class="w-full h-full object-cover">
-                    <div class="project-overlay">
-                        <div>
-                            <p class="text-[#6C5CE7] text-sm uppercase tracking-widest mb-2">Web Design</p>
-                            <h3 class="font-display text-3xl font-bold">Aura Wellness</h3>
+                <div class="cheat-sheet">
+                    <h3>🎯 The Golden Rules</h3>
+                    <div class="cheat-grid">
+                        <div class="cheat-item">
+                            <h4>Never Badmouth</h4>
+                            <p>Even if your last boss was a nightmare, stay professional. Complaining = Red flag.</p>
+                        </div>
+                        <div class="cheat-item">
+                            <h4>Always Pivot</h4>
+                            <p>Every question is an opportunity to highlight your value. Redirect strategically.</p>
+                        </div>
+                        <div class="cheat-item">
+                            <h4>Be Specific</h4>
+                            <p>Vague answers kill interviews. Use the STAR method: Situation, Task, Action, Result.</p>
+                        </div>
+                        <div class="cheat-item">
+                            <h4>Ask Back</h4>
+                            <p>Turn the tables. "That's an interesting question—what does success look like in this role?"</p>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Project 3 -->
-                <div class="project-card group rounded-2xl aspect-[4/5] cursor-pointer hover-target" data-speed="1.0">
-                    <img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?w=800&q=80" alt="Project 3" class="w-full h-full object-cover">
-                    <div class="project-overlay">
-                        <div>
-                            <p class="text-[#FF3366] text-sm uppercase tracking-widest mb-2">E-Commerce</p>
-                            <h3 class="font-display text-3xl font-bold">Luxe Fashion</h3>
+            </div>
+
+            <!-- Chapter 1: The Weakness Trap -->
+            <div class="chapter">
+                <div class="chapter-header">
+                    <span class="chapter-number">01</span>
+                    <h2 class="chapter-title">The Weakness Trap</h2>
+                </div>
+                <p class="intro-text">
+                    "What's your greatest weakness?" The most dreaded question in interview history. Here's how to turn this trap into a triumph.
+                </p>
+
+                <div class="question-card" onclick="toggleCard(this)">
+                    <div class="question-header">
+                        <span class="question-tag">Classic Trap</span>
+                        <div class="difficulty">
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                        </div>
+                    </div>
+                    <h3 class="question-text">"What's your greatest weakness?"</h3>
+                    <button class="toggle-btn">Reveal Strategy ↓</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <div class="strategy">
+                                <h4>The Strategy</h4>
+                                <p>Never give a real weakness that disqualifies you (e.g., "I'm always late" or "I hate details"). Instead, choose a real but non-critical weakness that you've actively worked to improve. Show self-awareness + growth mindset.</p>
+                            </div>
+                            
+                            <div class="script-box">
+                                "I've historically struggled with delegating tasks because I hold myself to very high standards. However, in my last role, I realized this was limiting my team's growth. I've since worked on providing clearer briefs upfront and establishing check-in points rather than micromanaging. The result? My team delivered a project 20% faster, and I was able to focus on higher-level strategy."
+                            </div>
+                            
+                            <div class="trap-warning">
+                                <div>
+                                    <strong>Avoid:</strong> "I'm a perfectionist" (too cliché), "I work too hard" (obvious humble-brag), or any weakness related to core job requirements (e.g., saying you're disorganized for a project manager role).
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Project 4 -->
-                <div class="project-card group rounded-2xl aspect-[4/5] md:mt-24 cursor-pointer hover-target" data-speed="1.4">
-                    <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80" alt="Project 4" class="w-full h-full object-cover">
-                    <div class="project-overlay">
-                        <div>
-                            <p class="text-[#6C5CE7] text-sm uppercase tracking-widest mb-2">App Design</p>
-                            <h3 class="font-display text-3xl font-bold">Pulse Fitness</h3>
+
+                <div class="question-card" onclick="toggleCard(this)">
+                    <div class="question-header">
+                        <span class="question-tag">Variation</span>
+                        <div class="difficulty">
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot"></div>
                         </div>
                     </div>
+                    <h3 class="question-text">"Tell me about a time you failed."</h3>
+                    <button class="toggle-btn">Reveal Strategy ↓</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <div class="strategy">
+                                <h4>The Strategy</h4>
+                                <p>Pick a real failure (not trivial), take full ownership (no blaming), explain the lesson learned, and prove you've implemented changes. The failure should be in the past—show you've grown since.</p>
+                            </div>
+                            
+                            <div class="script-box">
+                                "Early in my career, I launched a marketing campaign without A/B testing the messaging first. We spent $10K and saw minimal engagement. I took full responsibility and proposed we pause, analyze the data, and relaunch with two variants. The revised campaign performed 3x better. Now, I never launch without testing—I've even implemented a 'test budget' rule for all campaigns."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chapter 2: The Money Talk -->
+            <div class="chapter">
+                <div class="chapter-header">
+                    <span class="chapter-number">02</span>
+                    <h2 class="chapter-title">The Money Talk</h2>
+                </div>
+                <p class="intro-text">
+                    Salary questions are designed to either anchor you low or eliminate you. Never give a number first. Here's how to navigate the negotiation minefield.
+                </p>
+
+                <div class="question-card" onclick="toggleCard(this)">
+                    <div class="question-header">
+                        <span class="question-tag">Danger Zone</span>
+                        <div class="difficulty">
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                        </div>
+                    </div>
+                    <h3 class="question-text">"What are your salary expectations?"</h3>
+                    <button class="toggle-btn">Reveal Strategy ↓</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <div class="strategy">
+                                <h4>The Strategy</h4>
+                                <p>Deflect until you have an offer. If forced, give a researched range (never a single number) with the bottom being your target, not your minimum. Always tie it to value, not need.</p>
+                            </div>
+                            
+                            <div class="script-box">
+                                "I'm looking for a competitive package that reflects the value I bring, particularly my experience in [specific skill]. Based on my research of similar roles in this market and considering my track record of [specific achievement], I'm expecting a range of $X to $Y. However, I'm flexible on the structure—base, bonus, equity, benefits—and would love to hear more about the total compensation package you have in mind."
+                            </div>
+                            
+                            <div class="trap-warning">
+                                <div>
+                                    <strong>Never say:</strong> "I need at least $X to pay my rent" (they don't care about your expenses), "I'm open to anything" (you'll get lowballed), or give your current salary (illegal in some states, and irrelevant to your market value).
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" onclick="toggleCard(this)">
+                    <div class="question-header">
+                        <span class="question-tag">Trick Question</span>
+                        <div class="difficulty">
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                        </div>
+                    </div>
+                    <h3 class="question-text">"What did you make at your last job?"</h3>
+                    <button class="toggle-btn">Reveal Strategy ↓</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <div class="strategy">
+                                <h4>The Strategy</h4>
+                                <p>This is often illegal (check your state laws) and always irrelevant. Pivot immediately to your target range based on market research, not past underpayment.</p>
+                            </div>
+                            
+                            <div class="script-box">
+                                "I'm focusing on the value I can bring to this role rather than looking backward. Based on the responsibilities we've discussed and market rates for this level of position, I'm targeting $X to $Y. I'm confident that's fair given my background in [specific expertise] and my ability to [specific contribution]."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chapter 3: The Loyalty Test -->
+            <div class="chapter">
+                <div class="chapter-header">
+                    <span class="chapter-number">03</span>
+                    <h2 class="chapter-title">The Loyalty Test</h2>
+                </div>
+                <p class="intro-text">
+                    Questions designed to test if you'll jump ship or if you're a flight risk. They want commitment without guaranteeing anything themselves.
+                </p>
+
+                <div class="question-card" onclick="toggleCard(this)">
+                    <div class="question-header">
+                        <span class="question-tag">Red Flag</span>
+                        <div class="difficulty">
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                        </div>
+                    </div>
+                    <h3 class="question-text">"Where do you see yourself in 5 years?"</h3>
+                    <button class="toggle-btn">Reveal Strategy ↓</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <div class="strategy">
+                                <h4>The Strategy</h4>
+                                <p>Show ambition but tie it to growing WITH this company. Avoid suggesting you want their job (threatening) or that you see this as a stepping stone (insulting). Focus on skill development and impact.</p>
+                            </div>
+                            
+                            <div class="script-box">
+                                "In five years, I want to be an expert in [industry-specific skill] and have contributed to meaningful growth here. I'm particularly excited about [company's specific initiative], and I see myself leading projects in that area. I'm also passionate about mentorship, so I hope to be helping junior team members grow while continuing to expand my own strategic capabilities."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" onclick="toggleCard(this)">
+                    <div class="question-header">
+                        <span class="question-tag">Stress Test</span>
+                        <div class="difficulty">
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                        </div>
+                    </div>
+                    <h3 class="question-text">"Why should we hire you over other candidates?"</h3>
+                    <button class="toggle-btn">Reveal Strategy ↓</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <div class="strategy">
+                                <h4>The Strategy</h4>
+                                <p>This is your closing argument. Don't be modest, but don't trash others. Connect your unique combination of skills directly to their pain points. Use evidence.</p>
+                            </div>
+                            
+                            <div class="script-box">
+                                "You should hire me because I bring the exact combination you need: deep technical expertise in [skill] plus proven experience scaling teams through [specific challenge they're facing]. In my last role, I [specific metric]. I'm not just looking for any job—I'm specifically excited about [company's mission] because [personal connection]. That alignment means I'll bring not just skills, but genuine passion to this work every day."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chapter 4: The Trap Door -->
+            <div class="chapter">
+                <div class="chapter-header">
+                    <span class="chapter-number">04</span>
+                    <h2 class="chapter-title">The Trap Door</h2>
+                </div>
+                <p class="intro-text">
+                    Illegal questions disguised as small talk. Questions about family, age, religion, or health. Here's how to dodge without offending.
+                </p>
+
+                <div class="question-card" onclick="toggleCard(this)">
+                    <div class="question-header">
+                        <span class="question-tag">Illegal</span>
+                        <div class="difficulty">
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                        </div>
+                    </div>
+                    <h3 class="question-text">"Do you have kids? / Planning to start a family?"</h3>
+                    <button class="toggle-btn">Reveal Strategy ↓</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <div class="strategy">
+                                <h4>The Strategy</h4>
+                                <p>This is illegal in most jurisdictions but common. Don't answer directly. Pivot to your commitment to work or ask how it's relevant. Stay professional, not defensive.</p>
+                            </div>
+                            
+                            <div class="script-box">
+                                "I prefer to keep my personal and professional life separate, but I can assure you that I'm fully committed to delivering excellent results in this role. I'm curious—how does the team typically handle work-life balance here?" [Or] "I'm fully available to meet the demands of this position. Can you tell me more about the travel requirements or schedule expectations?"
+                            </div>
+                            
+                            <div class="trap-warning">
+                                <div>
+                                    <strong>Document this.</strong> If they ask illegal questions, it signals a toxic culture. Consider if you want to work somewhere that violates basic employment law in the interview.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="question-card" onclick="toggleCard(this)">
+                    <div class="question-header">
+                        <span class="question-tag">Ageism</span>
+                        <div class="difficulty">
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                            <div class="difficulty-dot active"></div>
+                        </div>
+                    </div>
+                    <h3 class="question-text">"You seem overqualified. Won't you get bored?"</h3>
+                    <button class="toggle-btn">Reveal Strategy ↓</button>
+                    
+                    <div class="answer-section">
+                        <div class="answer-content">
+                            <div class="strategy">
+                                <h4>The Strategy</h4>
+                                <p>Translation: "You're too old/expensive." Reframe "overqualified" as "highly experienced" and emphasize mentorship, stability, and wisdom. Address the real fear: that you'll leave.</p>
+                            </div>
+                            
+                            <div class="script-box">
+                                "I appreciate the concern, but I'm at a stage where I'm looking for meaningful work, not just climbing ladders. Your company's mission in [specific area] genuinely excites me, and I see opportunities here to mentor younger team members while contributing at a high level. I'm looking for a place to make a long-term impact, not a stepping stone. My experience means I can hit the ground running and help avoid pitfalls I've seen before."
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Preparation Checklist -->
+            <div class="chapter">
+                <div class="chapter-header">
+                    <span class="chapter-number">05</span>
+                    <h2 class="chapter-title">Pre-Game Checklist</h2>
+                </div>
+                <p class="intro-text">
+                    Before you walk into that room (or join that Zoom), make sure you're locked and loaded.
+                </p>
+
+                <div class="checklist">
+                    <h3 style="margin-bottom: 1.5rem; color: var(--primary);">Mission Prep</h3>
+                    <label class="checklist-item">
+                        <input type="checkbox" onchange="toggleCheck(this)">
+                        <span>Researched the company's last 3 quarterly earnings/crises</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" onchange="toggleCheck(this)">
+                        <span>Prepared 3 specific stories using STAR method</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" onchange="toggleCheck(this)">
+                        <span>Know the salary range for this role in this market</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" onchange="toggleCheck(this)">
+                        <span>Prepared questions that show strategic thinking (not "what's the culture like?")</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" onchange="toggleCheck(this)">
+                        <span>Practiced the "Tell me about yourself" 2-minute pitch</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" onchange="toggleCheck(this)">
+                        <span>Have a portfolio/backup plan ready for "show don't tell"</span>
+                    </label>
+                    <label class="checklist-item">
+                        <input type="checkbox" onchange="toggleCheck(this)">
+                        <span>Checked LinkedIn for interviewer's background (find common ground)</span>
+                    </label>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Stats Section -->
-    <section class="py-32 px-6 border-y border-white/10">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-12">
-                <div class="stat-item text-center">
-                    <div class="stat-number font-display" data-target="150">0</div>
-                    <p class="text-gray-400 text-sm uppercase tracking-widest mt-4">Projects Completed</p>
-                </div>
-                <div class="stat-item text-center">
-                    <div class="stat-number font-display" data-target="8">0</div>
-                    <p class="text-gray-400 text-sm uppercase tracking-widest mt-4">Years Experience</p>
-                </div>
-                <div class="stat-item text-center">
-                    <div class="stat-number font-display" data-target="45">0</div>
-                    <p class="text-gray-400 text-sm uppercase tracking-widest mt-4">Happy Clients</p>
-                </div>
-                <div class="stat-item text-center">
-                    <div class="stat-number font-display" data-target="12">0</div>
-                    <p class="text-gray-400 text-sm uppercase tracking-widest mt-4">Awards Won</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="py-32 px-6">
-        <div class="max-w-7xl mx-auto">
-            <div class="mb-20">
-                <p class="text-[#FF3366] text-sm uppercase tracking-widest mb-4">What We Do</p>
-                <h2 class="font-display text-4xl md:text-6xl font-bold max-w-3xl">Services that drive growth and innovation</h2>
-            </div>
-            
-            <div class="space-y-0">
-                <div class="service-item py-8 hover-target" data-service="1">
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center gap-8">
-                            <span class="text-gray-500 font-display text-sm">01</span>
-                            <h3 class="font-display text-3xl md:text-5xl font-bold">Brand Strategy</h3>
-                        </div>
-                        <div class="service-icon w-12 h-12 rounded-full border border-white/20 flex items-center justify-center transition-transform duration-300">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="service-content">
-                        <div class="pt-6 pb-2 pl-16 md:pl-20 max-w-2xl">
-                            <p class="text-gray-400 text-lg leading-relaxed">
-                                We craft compelling brand narratives that resonate with your audience. From positioning to visual identity, we build brands that stand out and drive meaningful connections.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="service-item py-8 hover-target" data-service="2">
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center gap-8">
-                            <span class="text-gray-500 font-display text-sm">02</span>
-                            <h3 class="font-display text-3xl md:text-5xl font-bold">Web Design</h3>
-                        </div>
-                        <div class="service-icon w-12 h-12 rounded-full border border-white/20 flex items-center justify-center transition-transform duration-300">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="service-content">
-                        <div class="pt-6 pb-2 pl-16 md:pl-20 max-w-2xl">
-                            <p class="text-gray-400 text-lg leading-relaxed">
-                                Beautiful, functional websites that convert. We combine aesthetics with user experience to create digital platforms that engage visitors and achieve business goals.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="service-item py-8 hover-target" data-service="3">
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center gap-8">
-                            <span class="text-gray-500 font-display text-sm">03</span>
-                            <h3 class="font-display text-3xl md:text-5xl font-bold">Development</h3>
-                        </div>
-                        <div class="service-icon w-12 h-12 rounded-full border border-white/20 flex items-center justify-center transition-transform duration-300">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="service-content">
-                        <div class="pt-6 pb-2 pl-16 md:pl-20 max-w-2xl">
-                            <p class="text-gray-400 text-lg leading-relaxed">
-                                Robust, scalable development solutions. From custom web applications to e-commerce platforms, we build technology that powers your business forward.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="service-item py-8 hover-target" data-service="4">
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center gap-8">
-                            <span class="text-gray-500 font-display text-sm">04</span>
-                            <h3 class="font-display text-3xl md:text-5xl font-bold">Motion Design</h3>
-                        </div>
-                        <div class="service-icon w-12 h-12 rounded-full border border-white/20 flex items-center justify-center transition-transform duration-300">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="service-content">
-                        <div class="pt-6 pb-2 pl-16 md:pl-20 max-w-2xl">
-                            <p class="text-gray-400 text-lg leading-relaxed">
-                                Bring your brand to life with captivating animations and motion graphics. We create dynamic visual experiences that engage and inspire your audience.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- About/Philosophy Section -->
-    <section id="about" class="py-32 px-6 relative overflow-hidden">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                <div>
-                    <p class="text-[#FF3366] text-sm uppercase tracking-widest mb-4">About Us</p>
-                    <h2 class="font-display text-4xl md:text-6xl font-bold mb-8 leading-tight">
-                        We believe in the power of design to transform businesses
-                    </h2>
-                    <div class="space-y-6 text-gray-400 text-lg leading-relaxed">
-                        <p>
-                            Founded in 2016, Ehan Studio has grown from a small design consultancy to a full-service creative agency. We work with ambitious brands who want to make an impact.
-                        </p>
-                        <p>
-                            Our team of strategists, designers, and developers collaborate closely to deliver work that not only looks beautiful but drives real results. We're not just service providers—we're partners in your success.
-                        </p>
-                    </div>
-                    <div class="mt-10 flex gap-4">
-                        <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#FF3366] transition-colors cursor-pointer hover-target">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/></svg>
-                        </div>
-                        <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#FF3366] transition-colors cursor-pointer hover-target">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                        </div>
-                        <div class="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center hover:bg-[#FF3366] transition-colors cursor-pointer hover-target">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                        </div>
-                    </div>
-                </div>
-                <div class="relative">
-                    <div class="aspect-[4/5] rounded-2xl overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&q=80" alt="Team" class="w-full h-full object-cover">
-                    </div>
-                    <div class="absolute -bottom-8 -left-8 w-48 h-48 bg-[#FF3366] rounded-2xl -z-10"></div>
-                    <div class="absolute -top-8 -right-8 w-32 h-32 border border-white/20 rounded-2xl"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section id="contact" class="py-32 px-6 footer-wrapper bg-[#0a0a0a]">
-        <div class="max-w-5xl mx-auto text-center">
-            <p class="text-[#FF3366] text-sm uppercase tracking-widest mb-6">Start a Project</p>
-            <h2 class="font-display text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
-                Let's create<br>something amazing
-            </h2>
-            <p class="text-gray-400 text-xl mb-12 max-w-2xl mx-auto">
-                Ready to transform your digital presence? We'd love to hear about your project.
+        <!-- Footer -->
+        <footer class="book-footer">
+            <h2>You've Got This</h2>
+            <p style="opacity: 0.8; max-width: 600px; margin: 0 auto;">
+                Remember: Interviews are mutual evaluations. You're interviewing them too. The right job won't require you to fake who you are—it will value what you actually bring.
             </p>
-            <a href="mailto:hello@ehan.studio" class="magnetic-btn text-xl hover-target">
-                <span class="font-display font-medium">Get in Touch</span>
-            </a>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-[#050505] py-20 px-6 border-t border-white/10">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-                <div class="md:col-span-2">
-                    <a href="#" class="font-display text-3xl font-bold tracking-tighter mb-4 inline-block">
-                        EHAN<span class="text-[#FF3366]">.</span>
-                    </a>
-                    <p class="text-gray-400 max-w-sm mt-4">
-                        A creative design studio crafting digital experiences that inspire and convert.
-                    </p>
-                </div>
-                <div>
-                    <h4 class="font-display font-bold mb-4">Navigation</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#work" class="hover:text-white transition-colors">Work</a></li>
-                        <li><a href="#services" class="hover:text-white transition-colors">Services</a></li>
-                        <li><a href="#about" class="hover:text-white transition-colors">About</a></li>
-                        <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-display font-bold mb-4">Contact</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li>hello@ehan.studio</li>
-                        <li>+1 (555) 123-4567</li>
-                        <li>123 Design Street<br>New York, NY 10001</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10">
-                <p class="text-gray-500 text-sm">© 2024 Ehan Studio. All rights reserved.</p>
-                <div class="flex gap-6 mt-4 md:mt-0">
-                    <a href="#" class="text-gray-500 hover:text-white text-sm transition-colors">Privacy Policy</a>
-                    <a href="#" class="text-gray-500 hover:text-white text-sm transition-colors">Terms of Service</a>
-                </div>
-            </div>
-        </div>
-    </footer>
+            <a href="#" class="cta-button" onclick="window.print()">Save This Guide (Print/PDF)</a>
+            <p style="margin-top: 2rem; font-size: 0.9rem; opacity: 0.6;">
+                © 2024 HR Survival Guide • Digital Edition
+            </p>
+        </footer>
+    </div>
 
     <script>
-        // Register GSAP plugins
-        gsap.registerPlugin(ScrollTrigger);
-        
-        // Custom Cursor
-        const cursor = document.querySelector('.cursor');
-        const follower = document.querySelector('.cursor-follower');
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-        let followerX = 0, followerY = 0;
-        
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-        
-        function animateCursor() {
-            cursorX += (mouseX - cursorX) * 0.2;
-            cursorY += (mouseY - cursorY) * 0.2;
-            followerX += (mouseX - followerX) * 0.1;
-            followerY += (mouseY - followerY) * 0.1;
-            
-            cursor.style.left = cursorX - 10 + 'px';
-            cursor.style.top = cursorY - 10 + 'px';
-            follower.style.left = followerX - 20 + 'px';
-            follower.style.top = followerY - 20 + 'px';
-            
-            requestAnimationFrame(animateCursor);
+        // Toggle question cards
+        function toggleCard(card) {
+            // Prevent toggling when clicking the button specifically (handled separately)
+            if (event.target.tagName === 'BUTTON') return;
+            card.classList.toggle('expanded');
         }
-        animateCursor();
         
-        // Hover effect for cursor
-        document.querySelectorAll('.hover-target').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-        });
-        
-        // Hero Animation
-        const heroTimeline = gsap.timeline();
-        
-        heroTimeline
-            .to('.hero-subtitle', {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                ease: 'power3.out'
-            })
-            .from('.hero-title span', {
-                y: '100%',
-                duration: 1.2,
-                stagger: 0.1,
-                ease: 'power3.out'
-            }, '-=0.5')
-            .to('.hero-cta', {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                ease: 'power3.out'
-            }, '-=0.5');
-        
-        // Parallax on scroll
-        gsap.to('.hero-title', {
-            scrollTrigger: {
-                trigger: 'body',
-                start: 'top top',
-                end: 'bottom top',
-                scrub: 1
-            },
-            y: -200,
-            opacity: 0
-        });
-        
-        // Project cards parallax
-        document.querySelectorAll('.project-card').forEach((card, i) => {
-            const speed = card.dataset.speed || 1;
-            gsap.to(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: 1
-                },
-                y: (i % 2 === 0 ? -50 : 50) * speed
+        // Handle button clicks specifically
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = btn.closest('.question-card');
+                card.classList.toggle('expanded');
+                btn.textContent = card.classList.contains('expanded') ? 'Hide Strategy ↑' : 'Reveal Strategy ↓';
             });
         });
-        
-        // Stats Counter Animation
-        const stats = document.querySelectorAll('.stat-number');
-        stats.forEach(stat => {
-            const target = parseInt(stat.dataset.target);
-            
-            ScrollTrigger.create({
-                trigger: stat,
-                start: 'top 80%',
-                onEnter: () => {
-                    gsap.to(stat, {
-                        innerHTML: target,
-                        duration: 2,
-                        snap: { innerHTML: 1 },
-                        ease: 'power2.out'
-                    });
-                },
-                once: true
-            });
+
+        // Checklist functionality
+        function toggleCheck(checkbox) {
+            const item = checkbox.closest('.checklist-item');
+            if (checkbox.checked) {
+                item.classList.add('checked');
+            } else {
+                item.classList.remove('checked');
+            }
+        }
+
+        // Scroll progress
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('progressBar').style.width = scrolled + "%";
         });
-        
-        // Services Accordion
-        document.querySelectorAll('.service-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const isActive = item.classList.contains('active');
-                
-                // Close all
-                document.querySelectorAll('.service-item').forEach(i => i.classList.remove('active'));
-                
-                // Open clicked if wasn't active
-                if (!isActive) {
-                    item.classList.add('active');
+
+        // Intersection Observer for fade-in animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
                 }
             });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.chapter').forEach((chapter) => {
+            observer.observe(chapter);
         });
-        
-        // Magnetic Buttons
-        document.querySelectorAll('.magnetic-btn').forEach(btn => {
-            btn.addEventListener('mousemove', (e) => {
-                const rect = btn.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                
-                gsap.to(btn, {
-                    x: x * 0.3,
-                    y: y * 0.3,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
-            });
-            
-            btn.addEventListener('mouseleave', () => {
-                gsap.to(btn, {
-                    x: 0,
-                    y: 0,
-                    duration: 0.3,
-                    ease: 'power2.out'
-                });
-            });
-        });
-        
-        // Scroll velocity skew effect
-        let currentSkew = 0;
-        let targetSkew = 0;
-        let lastScroll = 0;
-        
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            const velocity = scrollY - lastScroll;
-            targetSkew = Math.max(-5, Math.min(5, velocity * 0.1));
-            lastScroll = scrollY;
-        }, { passive: true });
-        
-        function updateSkew() {
-            currentSkew += (targetSkew - currentSkew) * 0.1;
-            targetSkew *= 0.95;
-            
-            document.querySelectorAll('.velocity-skew').forEach(el => {
-                el.style.transform = `skewY(${currentSkew}deg)`;
-            });
-            
-            requestAnimationFrame(updateSkew);
-        }
-        updateSkew();
-        
-        // Reveal animations on scroll
-        gsap.utils.toArray('section').forEach(section => {
-            gsap.from(section.querySelectorAll('h2, p, .project-card, .service-item, .stat-item'), {
-                scrollTrigger: {
-                    trigger: section,
-                    start: 'top 80%',
-                    toggleActions: 'play none none reverse'
-                },
-                y: 50,
-                opacity: 0,
-                duration: 0.8,
-                stagger: 0.1,
-                ease: 'power3.out'
-            });
-        });
-        
-        // Smooth scroll for anchor links
+
+        // Smooth scroll for internal links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    gsap.to(window, {
-                        duration: 1,
-                        scrollTo: { y: target, offsetY: 70 },
-                        ease: 'power3.inOut'
-                    });
-                }
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
         });
-        
-        // Initialize first service as open
-        document.querySelector('.service-item').classList.add('active');
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollToPlugin.min.js"></script>
 </body>
-</html>'''
-
-# Save to output file
-with open('/mnt/kimi/output/ehan_studio.html', 'w', encoding='utf-8') as f:
-    f.write(html_content)
-
-print("Ehan Studio website created successfully!")
-print("\nFeatures included:")
-print("- Custom animated cursor with hover effects")
-print("- Grain texture overlay for premium feel")
-print("- Floating gradient orbs with blur effects")
-print("- GSAP-powered scroll animations")
-print("- Parallax project cards with hover overlays")
-print("- Animated statistics counter")
-print("- Accordion services section")
-print("- Magnetic buttons with hover fill effect")
-print("- Infinite marquee text animation")
-print("- Velocity-based scroll skew effects")
-print("- Smooth scroll navigation")
-print("- Responsive design")
+</html>
